@@ -1,0 +1,122 @@
+@import "common";
+@media (max-width: $screen-sm) {
+  .container-wrap {
+    .content-wrap {
+      .main-content {
+        .reply-content {
+          .item-content{
+            padding-left: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $screen-md) {
+
+}
+
+@media (max-width: $screen-lg) {
+
+}
+
+.container-wrap {
+  .content-wrap {
+    .main-content {
+      .reply-content {
+        .reply-head {
+          border-bottom: $border1;
+          padding-top: 50px;
+        }
+        .reply-list {
+          .reply-item {
+            &:first-child {
+              border-top: none;
+            }
+            padding-top: 20px;
+            border-top: $border1;
+            padding-bottom: 20px;
+            .avatar {
+              display: block;
+              float: left;
+              width: 70px;
+              img {
+                border-radius: 5px;
+                height: 50px;
+                width: 50px;
+              }
+            }
+            .title {
+              color: #6e6e6e;
+            }
+            .item-content {
+              padding-top: 5px;
+              padding-left: 70px;
+              .item-body {
+                font-size: 16px;
+                p {
+                  word-wrap: break-word;
+                  word-break: normal;
+                }
+              }
+              .item-footer {
+                .comment-open {
+                  background-color: #499ef3;
+                  color: white !important;
+                  border: #3c7dc3;
+                }
+                .btn {
+                  color: #6e6e6e;
+                }
+                .date {
+                  color: #6e6e6e;
+                }
+              }
+            }
+            .reply-comment-wrap {
+              margin-top: 10px;
+              padding-left: 70px;
+              .reply-comment {
+                .comments-body {
+                  display: block;
+                  .comment-item:first-child {
+                    border-top: none;
+                    padding-top: 10px;
+                  }
+                  .comment-item {
+                    display: block;
+                    border-top: $border1;
+                    padding-top: 10px;
+                    .comment-user {
+                      font-size: 12px;
+                    }
+                    .comment-content {
+                      font-size: 16px;
+                      color: #0f0f0f;
+                      p {
+                        word-wrap: break-word;
+                        word-break: normal;
+                      }
+                    }
+                    .avatar {
+                      float: left;
+                      display: block;
+                      img {
+                        width: 40px;
+                        height: 40px;
+                      }
+                    }
+                    .title {
+                      float: left;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

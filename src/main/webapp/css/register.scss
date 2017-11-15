@@ -1,0 +1,78 @@
+@import "variable";
+
+.position-relative{
+  position: relative;
+}
+.body{
+  background-color: #16a085;
+  height: 100%;
+}
+.body-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #16a085;
+  #body-bg-canvas{
+    background-color: #16a085;
+  }
+}
+.form-wrap{
+  padding: 50px 50px 0 50px;
+
+  margin-top: 100px;
+  background-color: transparent;
+  box-shadow: 0 -15px 30px #0d957a;
+  height: 400px;
+  color: #ececec;
+
+  .logo{
+    padding-bottom: 50px;
+    text-align: center;
+  }
+  .form-group{
+    $padding: 8px;
+    .form-item-wrap{
+      padding: 0;
+    }
+    .help-block{
+      color: #FFF;
+    }
+    input{
+      padding: $padding $padding $padding 30px;
+      font-size: 15px;
+      background-color: #5cbdaa;
+      border: 0;
+      color: #ececec;
+      height: 42px;
+      border-radius: 0;
+    }
+    position: relative;
+    .input-before{
+      top: 15px;
+      left: 10px;
+      position: absolute;
+      color: #ececec;opacity:0.8;
+    }
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #ececec;
+    opacity:0.8;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #ececec;opacity:0.8;
+  }
+  input:-ms-input-placeholder{
+    color: #ececec;opacity:0.8;
+  }
+  input::-webkit-input-placeholder{
+    color: #ececec;opacity:0.8;
+  }
+  .btn{
+    background-color: #048f74;
+    border-radius: 0;
+    height: 42px;
+    &:hover{
+      color: #FFF;
+    }
+  }
+}
