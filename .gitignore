@@ -1,1 +1,11 @@
 Email.properties
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+DBConfig.properties
+/BBS3.iml
