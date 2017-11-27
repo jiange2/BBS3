@@ -5,7 +5,7 @@ import com.gdut.bbs.domain.User;
 
 public interface UserService {
 
-    void insertUser(User user);
+    void registerUser(User user);
 
     boolean checkEmailExist(User user);
 

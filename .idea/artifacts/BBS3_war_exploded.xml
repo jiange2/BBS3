@@ -7,6 +7,12 @@
           <element id="module-output" name="BBS3" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
+          <element id="library" level="project" name="Maven: org.glassfish.web:javax.el:2.2.6" />
+          <element id="library" level="project" name="Maven: org.hibernate:hibernate-validator:5.4.1.Final" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.logging:jboss-logging:3.3.0.Final" />
+          <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.3.1" />
           <element id="library" level="project" name="Maven: javax.mail:javax.mail-api:1.6.0" />
           <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.0" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />

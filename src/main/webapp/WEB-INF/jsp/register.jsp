@@ -34,6 +34,7 @@
 <div class="form-wrap container col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6">
     <div class="center-block logo"><h1><span class="glyphicon glyphicon-th-list"></span> 论坛名</h1></div>
     <form id="register-form" action="/index.html">
+        <input type="text" name="token" value="${token}" hidden>
         <div class="form-group">
             <span class="input-before glyphicon glyphicon-user"></span>
             <input type="text" class="form-control" name="username"  placeholder="用户名">
@@ -64,9 +65,24 @@
         <div class="form-group">
             <span class="input-before glyphicon glyphicon-envelope"></span>
             <input type="text" name="registerCode" class="form-control" placeholder="注册码">
+            <span class="input-after">
+                <a class="btn btn-default get-reg-code-btn">获取注册码</a>
+            </span>
         </div>
-        <button type="submit" class="btn btn-block">注册</button>
+        <button type="button" class="btn btn-block" id="register-form-btn">注册</button>
     </form>
+
+</div>
+
+<div id="myModal" class="modal fade bs-example-modal-sm error-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <p class="error-massage center-block"></p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -43,6 +43,19 @@
       position: absolute;
       color: #ececec;
       opacity: 0.8; }
+    .form-wrap .form-group .input-after {
+      top: 7px;
+      right: 10px;
+      position: absolute; }
+      .form-wrap .form-group .input-after .get-reg-code-btn {
+        padding: 5px;
+        height: auto;
+        color: #FFF;
+        background-color: #3f89ec;
+        border: none; }
+      .form-wrap .form-group .input-after .active {
+        color: #c3ded9;
+        opacity: 0.5; }
   .form-wrap :-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
     color: #ececec;

@@ -16,29 +16,25 @@ public class UserServiceImpl implements UserService{
     private UserMapper userMapper;
 
     @Override
-    public void insertUser(User user) {
+    public void registerUser(User user) {
         userMapper.insert(user);
     }
 
     @Override
     public boolean checkEmailExist(User user) {
-        System.out.println(userMapper);
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andEmailEqualTo(user.getEmail());
         List<User> users = userMapper.selectByExample(userExample);
-        System.out.println(users);
         return users.size() <= 0;
     }
 
     @Override
     public boolean checkUsernameExist(User user) {
-        System.out.println(userMapper);
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(user.getUsername());
         List<User> users = userMapper.selectByExample(userExample);
-        System.out.println(users);
         return users.size() <= 0;
     }
 

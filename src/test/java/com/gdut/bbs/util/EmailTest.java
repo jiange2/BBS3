@@ -10,11 +10,11 @@ public class EmailTest {
     public void test() throws MessagingException {
         EmailSender emailSender = EmailUtil.getEmailSender();
         System.out.println(emailSender.getAuthenticator().getUsername());
-        emailSender.send("992975556@qq.com","论坛注册码","110");
+        EmailUtil.sendRegisterCode("992975556@qq.com","123");
     }
 
     @Test
-    public void test2(){
+    public void test2() throws MessagingException {
         EmailUtil.sendRegisterCode("992975556@qq.com","110");
     }
 }

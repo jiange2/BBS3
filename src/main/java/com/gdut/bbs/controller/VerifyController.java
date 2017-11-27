@@ -1,6 +1,7 @@
 package com.gdut.bbs.controller;
 
 
+import com.gdut.bbs.annotation.Token;
 import com.gdut.bbs.util.VerifyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class VerifyController {
 
     @RequestMapping("/verCode")
     public void getVerificationCode(HttpSession session,HttpServletResponse response) throws IOException {
-        String verCode = VerifyUtil.getVerificationString();
+        String verCode = VerifyUtil.getVerificationString(4);
         BufferedImage img = VerifyUtil.getVerificationImage(verCode);
         session.setAttribute("verCode",verCode);
         OutputStream os = response.getOutputStream();
@@ -33,10 +34,14 @@ public class VerifyController {
     @RequestMapping("/checkVerCode")
     @ResponseBody
     public String checkVerCode(String verCode, HttpSession session){
-        System.out.println(verCode+":"+session.getAttribute("verCode"));
-        String sessionVerCode = (String) session.getAttribute("verCode");
-        return verCode != null && sessionVerCode != null
-                && verCode.toUpperCase().equals(sessionVerCode.toUpperCase())?
+        return VerifyUtil.checkVerCode(verCode,session)?
                 "{\"valid\":\"true\"}":"{\"valid\":\"false\"}";
+    }
+
+    @Token(save = true)
+    @RequestMapping("/getToken")
+    @ResponseBody
+    public String getToken(HttpSession session){
+        return (String) session.getAttribute("token");
     }
 }

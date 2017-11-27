@@ -12,7 +12,7 @@ public class verificationTest {
 
     @Test
     public void test() throws IOException {
-        String str = VerifyUtil.getVerificationString();
+        String str = VerifyUtil.getVerificationString(4);
         System.out.println(str);
         BufferedImage img = VerifyUtil.getVerificationImage(str);
         ImageIO.write(img,"jpg",new FileOutputStream("c://test/1.jpg"));

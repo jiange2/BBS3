@@ -1,7 +1,13 @@
 package com.gdut.bbs.util;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class VerifyUtil {
@@ -9,13 +15,18 @@ public class VerifyUtil {
     public static String randomChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public static Random random = new Random();
 
-    public static String getVerificationString(){
+    public static String getVerificationString(int len){
         int charsLength = randomChars.length();
-        char[] verChars = new char[4];
-        for(int i=0; i<4; ++i){
+        char[] verChars = new char[len];
+        for(int i=0; i<len; ++i){
             verChars[i] = randomChars.charAt(random.nextInt(charsLength));
         }
         return new String(verChars);
+    }
+    public static boolean checkVerCode(String verCode, HttpSession session){
+        String sessionVerCode = (String) session.getAttribute("verCode");
+        return verCode != null && sessionVerCode != null
+                && verCode.toUpperCase().equals(sessionVerCode.toUpperCase());
     }
 
     public static BufferedImage getVerificationImage(String verString){
@@ -62,5 +73,14 @@ public class VerifyUtil {
         return new Color(r,g,b);
     }
 
-
+    public static Map<String,String> SimplifyBindingResult(BindingResult errors){
+        Map<String,String> map = new HashMap<>();
+        if(errors.hasErrors()){
+            java.util.List<FieldError> list = errors.getFieldErrors();
+            for(FieldError error:list){
+                map.put(error.getField(),error.getDefaultMessage());
+            }
+        }
+        return map;
+    }
 }

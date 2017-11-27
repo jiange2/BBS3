@@ -2,10 +2,13 @@ package com.gdut.bbs.util;
 
 
 
+import com.sun.mail.util.MailSSLSocketFactory;
+
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.Properties;
 
@@ -73,6 +76,16 @@ public class EmailSender {
     }
 
     private void init(String username,String password,String SMTPHostName){
+        MailSSLSocketFactory factory = null;
+        try {
+            factory = new MailSSLSocketFactory();
+            factory.setTrustAllHosts(true);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
+        props.put("mail.smtp.ssl.enable", "true");
+        props.put("mail.smtp.ssl.socketFactory", factory);
         // 初始化props
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", SMTPHostName);
@@ -105,7 +118,7 @@ public class EmailSender {
         // 设置主题
         message.setSubject(subject);
         // 设置邮件内容
-        message.setContent(content.toString(), "text/html;charset=utf-8");
+        message.setContent(content.toString(), "text/html;charset=UTF-8");
         // 发送
         Transport.send(message);
     }

@@ -53,6 +53,22 @@
       position: absolute;
       color: #ececec;opacity:0.8;
     }
+    .input-after{
+      top: 7px;
+      right: 10px;
+      position: absolute;
+      .get-reg-code-btn{
+        padding: 5px;
+        height: auto;
+        color: #FFF;
+        background-color: #3f89ec;
+        border: none;
+      }
+      .active{
+        color: #c3ded9;
+        opacity: 0.5;
+      }
+    }
   }
   :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color: #ececec;

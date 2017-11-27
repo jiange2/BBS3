@@ -4,6 +4,7 @@ import com.gdut.bbs.JUnit4ClassRunner;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.mapper.ReplyMapper;
 import com.gdut.bbs.mapper.UserMapper;
+import org.hibernate.validator.internal.engine.ValidatorImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,27 +12,34 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @RunWith(JUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/application-context.xml")
+@ContextConfiguration("classpath:config/spring/application-context-webmvc.xml")
 public class txTest {
 
     @Autowired
     public ReplyMapper replyMapper;
 
+    @Autowired
+    private LocalValidatorFactoryBean validator;
+
+    @Autowired
+    private UserService userService;
+
     @Test
     public void test1() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ApplicationContext applicationContext =
-                new ClassPathXmlApplicationContext("classpath:config/spring/application-context.xml");
+                new ClassPathXmlApplicationContext("classpath:config/spring/application-context-webmvc.xml");
         UserService userService = (UserService) applicationContext.getBean(UserService.class);
         //userService.insertUser(new User());
         String[] beanNames = applicationContext.getBeanDefinitionNames();
-        /*for (String beanName: beanNames) {
+        for (String beanName: beanNames) {
             System.out.println(beanName);
-        }*/
+        }
         /*Method method = userService.getClass().getMethod("insertUser",User.class);
         System.out.println(method);
         method.invoke(userService,new User());*/
@@ -40,5 +48,12 @@ public class txTest {
     @Test
     public void test2(){
         System.out.println(replyMapper);
+    }
+
+    @Test
+    public void test3(){
+        User user = new User();
+        user.setEmail("992975556@qq.com");
+        System.out.println(userService.checkEmailExist(user));
     }
 }

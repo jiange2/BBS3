@@ -25,13 +25,9 @@ public class EmailUtil {
         return emailSender;
     }
 
-    public static void sendRegisterCode(String recipient,String str){
+    public static void sendRegisterCode(String recipient,String str) throws MessagingException {
         EmailSender sender = getEmailSender();
-        try {
-            sender.send(recipient,"论坛注册码",
+        sender.send(recipient,"论坛注册码",
                     emailRegisterCodePattern.replace("?",str));
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
     }
 }

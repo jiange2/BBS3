@@ -1,30 +1,67 @@
 package com.gdut.bbs.domain;
 
+
+import com.gdut.bbs.controller.valid.UserValidRegisterGroup;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class User {
+
+    @Null(groups = {UserValidRegisterGroup.class})
     private Integer userid;
 
+    @NotNull(message = "{user.username.notNull}",
+            groups = {UserValidRegisterGroup.class})
+    @Length(min = 9,max = 20,
+            groups = {UserValidRegisterGroup.class},
+            message = "{user.username.length}")
+    @Pattern(regexp = "[A-Za-z]+[A-Za-z\\d]+",
+            groups = {UserValidRegisterGroup.class},
+            message = "{user.username.regexp}")
     private String username;
 
+    @NotNull(message = "{user.password.notNull}",
+            groups = {UserValidRegisterGroup.class})
+    @Length(min = 6,max = 50,
+            groups = {UserValidRegisterGroup.class},
+            message = "{user.password.length}")
+    @Pattern(regexp = "[A-Za-z0-9.]+",
+            groups = {UserValidRegisterGroup.class},
+            message = "{user.password.regexp}")
     private String password;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private String nickname;
 
+    @Email(message = "{user.email}",
+            groups = {UserValidRegisterGroup.class})
+    @NotNull(message = "{user.email.notNull}")
     private String email;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private Integer follow;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private Date regDate;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private String gender;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private Date birthday;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private String avatar;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private String statement;
 
+    @Null(groups = {UserValidRegisterGroup.class})
     private Integer point;
 
     public Integer getUserid() {
