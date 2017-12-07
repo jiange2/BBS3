@@ -1,8 +1,51 @@
 @import "common";
+@import "parts/login-modal";
+@import "parts/post-modal";
+@import "parts/fixed-btn-group";
 
 .container-wrap{
   .content-wrap{
     .main-content{
+      padding-bottom: 20px;
+        .nav-justified{
+          @media all {
+            li{
+              display: table-cell;
+              width: 1%;
+              a{
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+        .nav-pills{
+          border-radius: 5px;
+          $height: 50px;
+          $padding: 5px;
+          padding: $padding;
+          background-color: #eeeeee;
+
+          li{
+            padding: 0 1px;
+            background-color: transparent;
+          }
+          a{
+            padding: 0;
+            line-height: $height - $padding*2;
+            color: lighten(#0f0f0f,30%);
+          }
+          a:hover{
+            color: #0f0f0f;
+            background-color: #FFF;
+          }
+          .active{
+            a{
+              color: #0f0f0f;
+              background-color: #FFF;
+            }
+          }
+        }
+
       .post-list {
         margin-bottom: 20px;
         .post-item {
@@ -24,18 +67,32 @@
             float: left;
             padding-left: 70px;
             .post-title {
-              font-size: 15px;
+              font-size: 14px;
             }
             .post-sub {
               color: #999;
               font-size: 12px;
             }
             .content{
-              font-size: 16px;
+              font-size: 14px;
             }
             .date{
               color: #6e6e6e;
             }
+          }
+        }
+      }
+
+      .page-select{
+        $padding: 3px;
+        $height: 40px;
+        padding: $padding;
+        height: $height;
+        li{
+          height: auto;
+          a{
+            line-height: $height - $padding*2;
+            padding: 0;
           }
         }
       }

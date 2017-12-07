@@ -81,6 +81,7 @@ body {
   background-color: #FFF;
   height: 50px;
   width: 100%;
+  box-shadow: 0 8px 16px 0 rgba(7,17,27,.2);
 
   .search-box {
     margin: 10px 0;
@@ -154,32 +155,30 @@ body {
       padding-right: $btm_padding;
       border-radius: 0;
     }
-    .login-form-wrap{
-      border: $border1;
-      position: absolute;
-      background-color: #FFF;
-      padding: 20px;
-      top: 40px;
-      left: -128px;
-      width: 300px;
-      z-index: 1000;
-      .input-group{
-        margin-bottom: 20px;
+
+    .avatar-wrap{
+      .avatar{
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        &:hover{
+          border: 2px solid #e40000;
+        }
       }
     }
+  }
 
-    .arrow-up{
-      $length: 8px;
-      position: absolute;
-      z-index: 1000;
-      top: 36px;
-      left: 45%;
-      width: $length;
-      height: $length;
-      border-left: $border1;
-      border-top: $border1;
-      transform: rotate(45deg);
-      background-color: #FFF;
+  .dropdown{
+    .dropdown-menu{
+      width: 306px;
+      height: 318px;
+      right: -50%;
+      left: auto;
+      top: 120%;
+      border: none;
+      border-radius: 0 0 10px 10px;
+      border-top: 0;
+      box-shadow: 0 8px 16px 0 rgba(7,17,27,.2);
     }
   }
 }
@@ -210,7 +209,7 @@ body {
     padding: 15px 0;
     text-align: center;
     font-size: 12px;
-    color: #828282;
+    color: #ffffff;
   }
 }
 

@@ -1,25 +1,18 @@
 package com.gdut.bbs.controller;
 
 import com.gdut.bbs.annotation.Token;
-import com.gdut.bbs.controller.valid.UserValidRegisterGroup;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.service.UserService;
 import com.gdut.bbs.util.EmailUtil;
-import com.gdut.bbs.util.LogUtil;
 import com.gdut.bbs.util.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.*;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -36,98 +29,115 @@ public class UserController {
     @Token(remove = true)
     @RequestMapping("/register")
     @ResponseBody
-    public Map<String,Object> register(User user ,String rePassword
-            , String registerCode,HttpSession session) throws UnsupportedEncodingException {
-        BindingResult errors = new BeanPropertyBindingResult(user,"user");
-        validator.validate(user,errors, UserValidRegisterGroup.class);
-        Map<String,Object> map = new HashMap<>();
-        if(errors.hasErrors()){
-            map.put("status","failure");
-            map.put("errors",VerifyUtil.SimplifyBindingResult(errors));
-        }else{
-            String email = (String) session.getAttribute("email");
-            String username = (String)session.getAttribute("username");
-            if(!user.getPassword().equals(rePassword)  ||
-                    !user.getUsername().equals(username)){
-                map.put("status","failure");
-                map.put("errors","瞎操作的吧");
+    public Map<String, Object> register(User user
+            , String registerCode, HttpSession session) throws UnsupportedEncodingException {
+        BindingResult errors = new BeanPropertyBindingResult(user, "user");
+        validator.validate(user, errors, User.Register.class);
+        Map<String, Object> map = new HashMap<>();
+        if(!errors.hasErrors()){
+            String registerCodeSession = (String) session.getAttribute("registerCode");
+            if(registerCodeSession != null &&
+                    registerCodeSession.equals(registerCode)){
+                String email = (String) session.getAttribute("email");
+                user.setEmail(email);
+                session.removeAttribute("registerCode");
+                userService.registerUser(user);
+                session.setAttribute("user", user);
+                map.put("valid", true);
             }else{
-                String registerCodeSession = (String) session.getAttribute("registerCode");
-                if(!user.getEmail().equals(email) ||
-                        registerCodeSession == null ||
-                        !registerCodeSession.equals(registerCode) ){
-                    map.put("status","failure");
-                    map.put("errors","注册码输入错误,请仔细输入");
-                }else{
-                    session.removeAttribute("registerCode");
-                    userService.registerUser(user);
-                    session.setAttribute("user",user);
-                    map.put("status","success");
+                map.put("errors", new String[]{"registerCode"});
+            }
+        }else{
+            map.put("valid", false);
+            map.put("errors", getAllErrorFieldName(errors));
+        }
+        return map;
+    }
+
+    private String[] getAllErrorFieldName(Errors errors){
+        int len = errors.getErrorCount();
+        String[] result = new String[len];
+        List<FieldError> fieldErrors = errors.getFieldErrors();
+        for(int i=0 ; i<fieldErrors.size(); ++i){
+            result[i] = fieldErrors.get(i).getField();
+        }
+        return result;
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public Map<String, Object> login(User user, HttpSession session, String verCode) {
+        BindingResult errors = new BeanPropertyBindingResult(user, "user");
+        validator.validate(user, errors, User.Login.class);
+        Map<String, Object> map = new HashMap<>();
+        if (errors.hasErrors()) {
+            map.put("status", "failure");
+            map.put("errors", getAllErrorFieldName(errors));
+        } else {
+            if (VerifyUtil.checkVerCode(verCode, session)) {
+                session.removeAttribute("verCode");
+                User loginUser = userService.selectUser(user);
+                if (loginUser != null) {
+                    session.setAttribute("user", loginUser);
+                    map.put("status", "success");
+                } else {
+                    map.put("status", "failure");
+                    map.put("errors", "用户名或者密码错误");
                 }
+            } else {
+                map.put("status", "failure");
+                map.put("errors", "验证码错误");
             }
         }
+
         return map;
     }
 
     @RequestMapping("/checkUsername")
     @ResponseBody
-    public String checkUsername(User user,HttpSession session){
-        boolean flag = userService.checkUsernameExist(user);
-        session.setAttribute("username",user.getUsername());
-        return flag ? "{\"valid\":\"true\"}":"{\"valid\":\"false\"}";
+    public String checkUsername(User user, HttpSession session) {
+        return userService.selectUsernameExist(user) ?
+                "{\"valid\":\"true\"}" : "{\"valid\":\"false\"}";
     }
-
 
 
     @RequestMapping("/checkEmail")
     @ResponseBody
-    public String checkEmail(User user){
-        return userService.checkEmailExist(user)?
-                "{\"valid\":\"true\"}":"{\"valid\":\"false\"}";
+    public String checkEmail(User user) {
+        return userService.selectEmailExist(user) ?
+                "{\"valid\":\"true\"}" : "{\"valid\":\"false\"}";
     }
 
-    public static int INTERVAL = 90000;
+    private static int INTERVAL = EmailUtil.REGISTER_CODE_INTERVAL;
 
     @RequestMapping("/getEmailRegCode")
     @ResponseBody
-    public Map getEmailRegCode(User user, HttpSession session,String verCode){
-        LogUtil.newLog();
-        LogUtil.endLog();
-        LogUtil.newLog();
-        Map<String,String> map = new HashMap<>();
-        Long lastSendTime = (Long) session.getAttribute("lastSendTime");
+    public Map getEmailRegCode(User user, HttpSession session, String verCode) {
+        Map<String, Object> result = new HashMap<>();
+        Long lastSendTime = EmailUtil.getLastSendTime(user.getEmail());
         Long nowTime = System.currentTimeMillis();
-        if((lastSendTime == null || nowTime-lastSendTime > INTERVAL)){
-            LogUtil.log("checkEmailExist");
-            if(userService.checkEmailExist(user)){
-                LogUtil.log("checkVerCode");
-                if(VerifyUtil.checkVerCode(verCode,session) ){
-                    String registerCode = VerifyUtil.getVerificationString(8);
-                    try {
-                        LogUtil.log("sendRegisterCode");
-                        EmailUtil.sendRegisterCode(user.getEmail(),registerCode);
-                        LogUtil.log("setAttribute");
-                        session.setAttribute("registerCode",registerCode);
-                        session.setAttribute("email",user.getEmail());
-                        session.setAttribute("lastSendTime",nowTime);
-                        map.put("leftTime",nowTime+"");
-                    } catch (MessagingException e){
-                        map.put("message","注册码发送失败");
-                        map.put("leftTime",0+"");
-                    }
-                }else{
-                    map.put("message","验证码错误");
-                    map.put("leftTime",0+"");
-                }
-            }else{
-                map.put("message","邮箱已被使用");
-                map.put("leftTime",0+"");
+        if ((lastSendTime == null || nowTime - lastSendTime > INTERVAL)) { //上次发送时间低于@INTERVAL
+            BindingResult errors = new BeanPropertyBindingResult(user, "user");
+            validator.validate(user, errors, User.GetRegisterCode.class);
+            if (!errors.hasErrors() && //邮件格式检查
+                    VerifyUtil.checkVerCode(verCode, session) && //检查验证码是否正确
+                    userService.selectEmailExist(user)) { //邮件是否已存在数据库
+                String registerCode = VerifyUtil.getVerificationString(8);
+                EmailUtil.sendRegisterCode(user.getEmail(), registerCode);
+                session.setAttribute("registerCode", registerCode);
+                session.setAttribute("email", user.getEmail());
+                session.removeAttribute("verCode");
+                result.put("valid", true);
+                result.put("interval", INTERVAL);
+                result.put("lastSendTime", EmailUtil.getLastSendTime(user.getEmail()));
+            } else {
+                result.put("valid", false);
             }
-        }else{
-            map.put("leftTime",lastSendTime+"");
+        } else {
+            result.put("valid", false);
+            result.put("interval", INTERVAL);
+            result.put("lastSendTime", lastSendTime);
         }
-        map.put("interval",INTERVAL+"");
-        LogUtil.endLog();
-        return map;
+        return result;
     }
 }

@@ -1,6 +1,6 @@
 $(function () {
     $('#register-form').bootstrapValidator({
-        message: 'This value is not valid',
+        message: '校验不通过',
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
             invalid: 'glyphicon glyphicon-remove',
@@ -25,7 +25,7 @@ $(function () {
                         url: '/user/checkUsername',
                         type: 'post',
                         delay: 1000,
-                        message: '用户名已经被使用'
+                        message: '用户名已经被使用<a href="login">,登录</a>'
                     }
                 }
             },
@@ -58,7 +58,7 @@ $(function () {
                     },
                     remote : {
                         url : 'user/checkEmail',
-                        message : "该邮箱已经使用！",
+                        message : "该邮箱已经使用！<a href=\"login\"'>,登录</a>",
                         delay : 1000,
                         type : 'post'
                     },
@@ -84,155 +84,170 @@ $(function () {
                         type : 'post'
                     }
                 }
+            },
+            registerCode:{
+                validators: {
+                    notEmpty: {
+                        message: '注册码不能为空'
+                    },
+                    callback : {
+                        message : "注册码错误",
+                        callback: function (value,validator, $field) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
+(function () {
+    var time = 0;
+
+    $('.get-reg-code-btn').on('click',function () {
+        var $this = $(this);
+        var $form = $('#register-form');
+        var validate = $form.data("bootstrapValidator");
+        var $email = $('input[name=email]');
+        var $verCode = $('input[name=verCode]');
+        if(time < 1){
+            if(!validate.isValidField($email)){
+                validate.validateField($email);
+                if(!validate.isValidField($verCode)){
+                    validate.validateField($verCode);
+                }
+            }else{
+                if(!validate.isValidField($verCode)){
+                    validate.validateField($verCode);
+                }else{
+                    if($verCode.nextAll('i').hasClass('glyphicon-ok')){
+                        $.ajax({
+                            url: 'user/getEmailRegCode',
+                            dataType:'json',
+                            data:{email:$email.val(),
+                                verCode:$verCode.val()},
+                            method:'post',
+                            beforeSend: function () {
+                                beforeSend('正在发送',$this);
+                            },
+                            success:function (data) {
+                                if(data.valid === true || data.lastSendTime !== undefined){
+                                    time = parseInt((data.interval -
+                                        (new Date().getTime() - data.lastSendTime))/1000);
+                                    var message = "邮件已发送";
+                                    showMessage(message,$this);
+                                    setTimeout(function () {
+                                        render(message,$this);
+                                    },1000);
+                                    if(data.valid === true){
+                                        fleshVerCode();
+                                    }
+                                }else{
+                                    validate.revalidateField($email);
+                                    validate.revalidateField($verCode);
+                                    afterSend($this);
+                                }
+                            },
+                            error:function () {
+                                afterSend($this);
+                            }
+                        });
+                    }
+                }
             }
         }
     });
 
-
-});
-var time = 0;
-
-$('.get-reg-code-btn').on('click',function () {
-    if(time < 1){
+    $('#register-form-btn').on('click',function () {
         var $form = $('#register-form');
-
-        var $this = $(this);
-        time = 90;
-        var message = "邮件已发送";
-        var text = $this.html();
-        var $email = $('input[name=email]');
-        $this.css('disabled',true);
-        $this.addClass('active');
-
-        if($email.nextAll('i').hasClass('glyphicon-ok')){
-            var verCode = $('input[name=verCode]');
-            if(verCode.nextAll('i').hasClass('glyphicon-ok')){
-                $.ajax({
-                    url: 'user/getEmailRegCode',
-                    dataType:'json',
-                    data:{email:$email.val(),
-                        verCode:verCode.val()},
-                    method:'post',
-                    beforeSend:function () {
-                        $this.html('正在发送...');
-                    },
-                    success:function (data) {
-                        if(data.message !== undefined){
-                            time = 5;
-                            $this.html(data.message+"("+time+")");
-                            setTimeout(function () {
-                                render(text,data.message,$this);
-                            },1000);
-                        }else {
-                            time = parseInt((data.interval - (new Date().getTime() - data.leftTime))/1000);
-                            if(time > 0){
-                                $this.html(message+"("+time+")");
-                                setTimeout(function () {
-                                    render(text,message,$this);
-                                },1000);
-                            }else{
-                                time = 0;
-                                $this.css('disabled',false);
-                                $this.removeClass('active');
-                                $this.html(text);
-                            }
-                        }
-                    },
-                    error:function () {
-                        time = 0;
-                        $this.css('disabled',false);
-                        $this.removeClass('active');
-                        $this.html(text);
+        $form.bootstrapValidator('validate');
+        if($form.data("bootstrapValidator").isValid()){
+            var $this = $(this);
+            var $token = $('input[name=token]').val();
+            var $username = $('input[name=username]').val();
+            var $password = $('input[name=password]').val();
+            var $email = $('input[name=email]').val();
+            var $registerCode = $('input[name=registerCode]').val();
+            $.ajax({
+                url: '/user/register',
+                method: 'post',
+                data:{
+                    token: $token.trim(),
+                    username:$username.trim(),
+                    password:$password.trim(),
+                    email:$email.trim(),
+                    registerCode:$registerCode.trim()
+                },
+                dataType: 'json',
+                beforeSend:function () {
+                    beforeSend("",$this);
+                },
+                success:function (data) {
+                    if(data.valid === true){
+                        window.location.href = "/index";
+                    }else{
+                        showError(data.errors);
+                        afterSend($this);
+                        getToken();
                     }
-                });
-            }else{
-                time = 3;
-                $this.html("请正确输入验证码("+time+")");
-                setTimeout(function () {
-                    render(text,"请正确输入验证码",$this);
-                },1000);
-            }
-        }else{
-            time = 3;
-            $this.html("请正确输入邮箱("+time+")");
-            setTimeout(function () {
-                render(text,"请正确输入邮箱",$this);
-            },1000);
-        }
-    }
-});
-
-function render(text,message,ele) {
-    --time;
-    ele.html(message+"("+time+")");
-    if(time > 0){
-        setTimeout(function () {
-            render(text,message,ele);
-        },1000);
-    }else{
-        ele.css('disabled',false);
-        ele.removeClass('active');
-        ele.html(text);
-    }
-}
-
-$('#register-form-btn').on('click',function () {
-    var $form = $('#register-form');
-    $form.bootstrapValidator('validate');
-    if($form.data("bootstrapValidator").isValid()){
-        var $this = $(this);
-        var $token = $('input[name=token]').val();
-        var $username = $('input[name=username]').val();
-        var $password = $('input[name=password]').val();
-        var $rePassword = $('input[name=rePassword]').val();
-        var $email = $('input[name=email]').val();
-        var $registerCode = $('input[name=registerCode]').val();
-        $.ajax({
-            url: '/user/register',
-            method: 'post',
-            data:{
-                token: $token.trim(),
-                username:$username.trim(),
-                password:$password.trim(),
-                rePassword:$rePassword.trim(),
-                email:$email.trim(),
-                registerCode:$registerCode.trim()
-            },
-            dataType: 'json',
-            beforeSend:function () {
-                $this.css('disabled',true);
-                $this.addClass('opacity',0.6);
-                $this.html("提交注册中...");
-            },
-            success:function (data) {
-                if(data.status === 'success'){
-                    window.location.href = "/index";
-                }else{
-                    $('.error-modal .error-massage').html(data.errors);
+                },error:function () {
+                    $('.error-modal .error-massage').html("提交失败");
                     $('.error-modal').modal('show');
-                    $this.css('disabled',false);
-                    $this.addClass('opacity',1);
-                    $this.html("注册");
+                    afterSend($this);
                     getToken();
                 }
-            },error:function (data) {
-                $('.error-modal .error-massage').html("提交失败");
-                $('.error-modal').modal('show');
-                $this.css('disabled',false);
-                $this.addClass('opacity',1);
-                $this.html("注册");
-                getToken();
+            })
+        }
+    });
+
+    function render(message,ele) {
+        --time;
+        showMessage(message,ele);
+        if(time > 0){
+            setTimeout(function () {
+                render(message,ele);
+            },1000);
+        }else{
+            afterSend(ele);
+        }
+    }
+
+    function showMessage(message,ele){
+        ele.html(message+time+"秒");
+    }
+
+    function getToken() {
+        $.ajax({
+            url:'/verify/getToken',
+            dataType:'text',
+            success:function (data) {
+                $('input[name=token]').val(data);
             }
         })
     }
-});
 
-function getToken() {
-    $.ajax({
-        url:'/verify/getToken',
-        dataType:'text',
-        success:function (data) {
-            $('input[name=token]').val(data);
+    function showError(errors) {
+        var validator = $('#register-form').bootstrapValidator('validate');
+        for(var i=0; i<errors.length; ++i){
+            if(errors[i] !== "registerCode"){
+                validator.revalidateField(errors[i]);
+            }else{
+                $('input[name=registerCode]')
+                    .nextAll('.help-block[data-bv-validator=callback]').show();
+            }
         }
-    })
-}
+    }
+
+    function beforeSend(sendingMessage,obj) {
+        var loadingImg = '<img src="img/loading2.gif"/>';
+        obj.attr('disabled',true);
+        obj.html(sendingMessage+' '+loadingImg);
+    }
+
+    function afterSend(obj) {
+        time = 0;
+        obj.html(obj.attr('data-toggle'));
+        obj.attr('disabled',false);
+    }
+})();

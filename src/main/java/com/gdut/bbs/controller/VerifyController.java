@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/verify")
 public class VerifyController {
+
+    @RequestMapping("/myIp")
+    @ResponseBody
+    public String test(HttpServletRequest request){
+        return request.getRemoteAddr();
+    }
 
     @RequestMapping("/verCode")
     public void getVerificationCode(HttpSession session,HttpServletResponse response) throws IOException {

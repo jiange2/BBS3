@@ -1,5 +1,6 @@
 package com.gdut.bbs.domain;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Post {
@@ -9,8 +10,10 @@ public class Post {
 
     private String unickname;
 
+    @NotNull(message = "{post.tilte.notNull}")
     private String title;
 
+    @NotNull(message = "{post.content.notNull}")
     private String content;
 
     private Date postTime;
@@ -102,4 +105,6 @@ public class Post {
     public void setWatchCount(Integer watchCount) {
         this.watchCount = watchCount;
     }
+
+
 }

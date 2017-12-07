@@ -1,7 +1,6 @@
 package com.gdut.bbs.test;
 
 import com.gdut.bbs.JUnit4ClassRunner;
-import com.gdut.bbs.controller.valid.UserValidRegisterGroup;
 import com.gdut.bbs.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +33,6 @@ public class ValidateTest {
         User user = new User();
         user.setUsername("123");
         BindingResult errors = new BeanPropertyBindingResult(user,"user");
-        validator.validate(user,errors, UserValidRegisterGroup.class);
         List<FieldError> errorList = errors.getFieldErrors();
         for(FieldError error:errorList){
             System.out.println(error.getField() +":"+ error.getDefaultMessage());

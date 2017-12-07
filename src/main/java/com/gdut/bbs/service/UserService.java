@@ -7,7 +7,9 @@ public interface UserService {
 
     void registerUser(User user);
 
-    boolean checkEmailExist(User user);
+    boolean selectEmailExist(User user);
 
-    boolean checkUsernameExist(User user);
+    boolean selectUsernameExist(User user);
+
+    User selectUser(User user);
 }

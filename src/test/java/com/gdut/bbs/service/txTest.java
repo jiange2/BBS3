@@ -3,19 +3,15 @@ package com.gdut.bbs.service;
 import com.gdut.bbs.JUnit4ClassRunner;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.mapper.ReplyMapper;
-import com.gdut.bbs.mapper.UserMapper;
-import org.hibernate.validator.internal.engine.ValidatorImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 @RunWith(JUnit4ClassRunner.class)
 @ContextConfiguration("classpath:config/spring/application-context-webmvc.xml")
@@ -54,6 +50,6 @@ public class txTest {
     public void test3(){
         User user = new User();
         user.setEmail("992975556@qq.com");
-        System.out.println(userService.checkEmailExist(user));
+        System.out.println(userService.selectEmailExist(user));
     }
 }

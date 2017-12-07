@@ -23,6 +23,7 @@ public class VerifyUtil {
         }
         return new String(verChars);
     }
+
     public static boolean checkVerCode(String verCode, HttpSession session){
         String sessionVerCode = (String) session.getAttribute("verCode");
         return verCode != null && sessionVerCode != null
@@ -71,16 +72,5 @@ public class VerifyUtil {
         int g = random.nextInt(range) + st;
         int b = random.nextInt(range) + st;
         return new Color(r,g,b);
-    }
-
-    public static Map<String,String> SimplifyBindingResult(BindingResult errors){
-        Map<String,String> map = new HashMap<>();
-        if(errors.hasErrors()){
-            java.util.List<FieldError> list = errors.getFieldErrors();
-            for(FieldError error:list){
-                map.put(error.getField(),error.getDefaultMessage());
-            }
-        }
-        return map;
     }
 }

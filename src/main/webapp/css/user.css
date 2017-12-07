@@ -54,7 +54,8 @@ body {
 .nav-wrap {
   background-color: #FFF;
   height: 50px;
-  width: 100%; }
+  width: 100%;
+  box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
   .nav-wrap .search-box {
     margin: 10px 0;
     position: relative;
@@ -106,28 +107,22 @@ body {
       padding-left: 22px;
       padding-right: 22px;
       border-radius: 0; }
-    .nav-wrap .nav-user .login-form-wrap {
-      border: 1px solid #e6e6e6;
-      position: absolute;
-      background-color: #FFF;
-      padding: 20px;
-      top: 40px;
-      left: -128px;
-      width: 300px;
-      z-index: 1000; }
-      .nav-wrap .nav-user .login-form-wrap .input-group {
-        margin-bottom: 20px; }
-    .nav-wrap .nav-user .arrow-up {
-      position: absolute;
-      z-index: 1000;
-      top: 36px;
-      left: 45%;
-      width: 8px;
-      height: 8px;
-      border-left: 1px solid #e6e6e6;
-      border-top: 1px solid #e6e6e6;
-      transform: rotate(45deg);
-      background-color: #FFF; }
+    .nav-wrap .nav-user .avatar-wrap .avatar {
+      border-radius: 50%;
+      width: 32px;
+      height: 32px; }
+      .nav-wrap .nav-user .avatar-wrap .avatar:hover {
+        border: 2px solid #e40000; }
+  .nav-wrap .dropdown .dropdown-menu {
+    width: 306px;
+    height: 318px;
+    right: -50%;
+    left: auto;
+    top: 120%;
+    border: none;
+    border-radius: 0 0 10px 10px;
+    border-top: 0;
+    box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
 
 .container-wrap {
   background: transparent;
@@ -147,7 +142,7 @@ body {
     padding: 15px 0;
     text-align: center;
     font-size: 12px;
-    color: #828282; }
+    color: #ffffff; }
 
 .user-content {
   padding: 0; }

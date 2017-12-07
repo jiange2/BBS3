@@ -45,17 +45,22 @@
       opacity: 0.8; }
     .form-wrap .form-group .input-after {
       top: 7px;
-      right: 10px;
-      position: absolute; }
-      .form-wrap .form-group .input-after .get-reg-code-btn {
-        padding: 5px;
-        height: auto;
-        color: #FFF;
-        background-color: #3f89ec;
-        border: none; }
-      .form-wrap .form-group .input-after .active {
-        color: #c3ded9;
-        opacity: 0.5; }
+      right: 23px;
+      position: absolute;
+      /*.loading{
+        color: darken($btn-color,1%);
+      }*/ }
+      .form-wrap .form-group .input-after img {
+        margin-top: -3px;
+        width: 14px;
+        height: 14px; }
+    .form-wrap .form-group .get-reg-code-btn {
+      padding: 10px;
+      color: #ffffff;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      height: 42px; }
   .form-wrap :-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
     color: #ececec;
@@ -72,8 +77,7 @@
     opacity: 0.8; }
   .form-wrap .btn {
     background-color: #048f74;
-    border-radius: 0;
-    height: 42px; }
+    color: #e5e5e5; }
     .form-wrap .btn:hover {
       color: #FFF; }
 

@@ -1,0 +1,42 @@
+.fixed-btn-group{
+  z-index: 1049;
+  position: fixed;
+  bottom: -50px;
+  right: 20px;
+  ul{
+
+  }
+  li{
+    position: relative;
+    margin-bottom: 10px;
+    &:last-child{
+      margin-bottom: 0;
+    }
+    a{
+      text-align: center;
+      color: #9aaabf;
+      //padding:  7px 8px 1px 9px;
+      padding-left: 10px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+    .back-to-top-btn{
+      padding-left: 8px;
+    }
+    .tooltip{
+      position: absolute;
+      /*top: 60px !important;
+      left: -74px !important;*/
+    }
+    .tooltip-arrow{
+    }
+
+  }
+
+}
+.modal-open{
+  .fixed-btn-group{
+    display: none;
+  }
+}

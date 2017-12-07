@@ -28,6 +28,8 @@
     <!--[if lt IE 9]><script src="js/html5shiv.min.js"></script><script src="js/respond.min.js"></script><![endif]-->
 </head>
 <body>
+
+<jsp:include page="parts/error-modal.jsp"/>
 <div class="body-bg absolute-screen-width-100 absolute-screen-height-100">
     <canvas id="body-bg-canvas">浏览器不支持canvas</canvas>
 </div>
@@ -62,27 +64,18 @@
                 <a class="flesh-ver-code"><img id="ver-code" src="/verify/verCode" style="width:100%;height: 42px;" ></a>
             </div>
         </div>
-        <div class="form-group">
-            <span class="input-before glyphicon glyphicon-envelope"></span>
-            <input type="text" name="registerCode" class="form-control" placeholder="注册码">
-            <span class="input-after">
-                <a class="btn btn-default get-reg-code-btn">获取注册码</a>
-            </span>
-        </div>
-        <button type="button" class="btn btn-block" id="register-form-btn">注册</button>
-    </form>
-
-</div>
-
-<div id="myModal" class="modal fade bs-example-modal-sm error-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <p class="error-massage center-block"></p>
+        <div class="form-group clearfix">
+            <div class="col-xs-7 position-relative form-item-wrap">
+                <span class="input-before glyphicon glyphicon-envelope"></span>
+                <input type="text" name="registerCode" class="form-control" placeholder="注册码">
+            </div>
+            <div class="col-xs-5">
+                <a class="btn btn-default get-reg-code-btn" data-toggle="获取注册码">获取注册码</a>
             </div>
         </div>
-    </div>
+        <a type="button" class="btn btn-block" id="register-form-btn" data-toggle="注册">注册</a>
+    </form>
+
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -94,10 +87,6 @@
 <script src="js/bgDraw.js"></script>
 <script src="js/validate.js"></script>
 <script>
-    $('.flesh-ver-code').on('click',function () {
-        var verCode = $('#ver-code');
-        verCode.attr('src','/verify/verCode?timestamp='+new Date().getTime());
-    });
 </script>
 </body>
 </html>

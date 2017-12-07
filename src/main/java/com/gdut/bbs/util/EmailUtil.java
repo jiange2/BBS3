@@ -2,12 +2,15 @@ package com.gdut.bbs.util;
 
 import javax.mail.MessagingException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EmailUtil {
 
     private static volatile EmailSender emailSender;
     private static ResourceBundle bundle;
     private static String emailRegisterCodePattern;
+
+    private static ConcurrentHashMap<String,Long> emailLastSendTime = new ConcurrentHashMap<>();
 
     public static EmailSender getEmailSender(){
         if(emailSender == null){
@@ -25,9 +28,24 @@ public class EmailUtil {
         return emailSender;
     }
 
-    public static void sendRegisterCode(String recipient,String str) throws MessagingException {
+    public static int REGISTER_CODE_INTERVAL = 90000;
+
+    public static void sendRegisterCode(String recipient,String str) {
         EmailSender sender = getEmailSender();
-        sender.send(recipient,"论坛注册码",
-                    emailRegisterCodePattern.replace("?",str));
+        emailLastSendTime.put(recipient,System.currentTimeMillis());
+        TimerUtil.addTask(() -> {
+            try {
+                sender.send(recipient, "论坛注册码",
+                        emailRegisterCodePattern.replace("?", str));
+            } catch (MessagingException e) {
+                //TODO
+                e.printStackTrace();
+            }
+        },0);
+        TimerUtil.addTask(()-> emailLastSendTime.remove(recipient), REGISTER_CODE_INTERVAL);
+    }
+
+    public static Long getLastSendTime(String recipient){
+        return emailLastSendTime.get(recipient);
     }
 }

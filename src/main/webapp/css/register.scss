@@ -53,21 +53,28 @@
       position: absolute;
       color: #ececec;opacity:0.8;
     }
+    $btn-color: #ffffff;
     .input-after{
       top: 7px;
-      right: 10px;
+      right: 23px;
       position: absolute;
-      .get-reg-code-btn{
-        padding: 5px;
-        height: auto;
-        color: #FFF;
-        background-color: #3f89ec;
-        border: none;
+
+      img{
+        margin-top: -3px;
+        width: 14px;
+        height: 14px;
       }
-      .active{
-        color: #c3ded9;
-        opacity: 0.5;
-      }
+      /*.loading{
+        color: darken($btn-color,1%);
+      }*/
+    }
+    .get-reg-code-btn{
+      padding: 10px;
+      color: $btn-color;
+      background-color: transparent;
+      border: none;
+      border-radius: 0;
+      height: 42px;
     }
   }
   :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
@@ -85,8 +92,7 @@
   }
   .btn{
     background-color: #048f74;
-    border-radius: 0;
-    height: 42px;
+    color: #e5e5e5;
     &:hover{
       color: #FFF;
     }

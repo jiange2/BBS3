@@ -1,0 +1,105 @@
+@import "../variable";
+
+#login-model{
+  margin-top: 50px;
+
+  .modal-sm{
+    width: 400px;
+    margin-top: 100px;
+    @media (max-width: $screen-sm) {
+      margin-top: 20px;
+      width: 95%;
+    }
+  }
+  .modal-content{
+    $padding: 50px;
+    border-radius: 0;
+
+    .close{
+      $padding2: 5px;
+      padding-right: $padding2;
+      padding-top: $padding2;
+      font-size: 26px;
+    }
+
+    .modal-header{
+      color: #FFF;
+      background-color: #0f88eb;
+      padding-left: $padding;
+      padding-right: $padding;
+      .modal-title{
+        font-weight: bold;
+        .subTitle{
+          color: #FFF;
+        }
+      }
+    }
+    .modal-body{
+      padding: $padding;
+      .form-wrap{
+        margin-top: 0 !important;
+        .logo{
+          padding-bottom: 50px;
+          text-align: center;
+        }
+        .form-group{
+          $padding: 8px;
+          .form-item-wrap{
+            padding: 0;
+          }
+          input{
+            $border: 1px solid #0f88eb;
+            padding: $padding $padding $padding 30px;
+            box-shadow: none;
+            border-style: none;
+            border-bottom: $border1;
+            border-radius: 0;
+            font-size: 15px;
+            height: 42px;
+            &:focus{
+              transition: 1s;
+              border-bottom: $border;
+            }
+          }
+
+          position: relative;
+          .input-before{
+            top: 15px;
+            left: 10px;
+            position: absolute;
+            color: #4c4c4c;opacity:0.8;
+          }
+          .input-after{
+            top: 7px;
+            right: 24px;
+            position: absolute;
+            .get-reg-code-btn{
+              padding: 5px;
+              height: auto;
+              color: #FFF;
+              background-color: #3f89ec;
+              border: none;
+            }
+            .active{
+              color: #c3ded9;
+              opacity: 0.5;
+            }
+          }
+        }
+        #ver-code{
+          border: 1px solid #9c9c9c;
+        }
+        .btn{
+          background-color: #0f88eb;
+          border: 1px solid #0f88eb;
+          font-size: 16px;
+          color: #e8e8e8;
+          &:hover{
+            color: #FFF;
+            border: 1px solid #0f92f7;
+          }
+        }
+      }
+    }
+  }
+}
