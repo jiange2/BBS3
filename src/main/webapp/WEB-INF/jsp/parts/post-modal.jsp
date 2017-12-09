@@ -11,6 +11,7 @@
 <script src="js/summernote.js"></script>
 <script src="lang/summernote-zh-CN.js"></script>
 <script src="js/parts/post-modal.js"></script>
+
 <div class="modal fade" id="post-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
@@ -22,6 +23,7 @@
             </div>
             <div class="modal-body editor post-form-wrap">
                 <form id="post-form">
+                    <input type="text" name="token" value="${token}" hidden>
                     <div class="form-group">
                         <input type="text" class="form-control" name="title" placeholder="标题">
                     </div>

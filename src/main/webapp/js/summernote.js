@@ -7298,7 +7298,7 @@
             .attr('width', '500')
             .attr('src', 'v.qq.com/iframe/player.html?vid=' + vid + '&amp;auto=0');
       } else if (mp4Match || oggMatch || webmMatch) {
-        $video = $('<embed controls>')
+        $r = $('<embed controls>')
             .attr('src', url)
             .attr('width', '640').attr('height', '360');
       } else if (bilibiliMatch && bilibiliMatch[1].length) {

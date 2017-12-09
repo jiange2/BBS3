@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdut.bbs.mapper.PostMapper">
   <resultMap id="BaseResultMap" type="com.gdut.bbs.domain.Post">
@@ -10,6 +10,7 @@
     <result column="post_time" jdbcType="TIMESTAMP" property="postTime" />
     <result column="last_reply_time" jdbcType="TIMESTAMP" property="lastReplyTime" />
     <result column="reply_count" jdbcType="INTEGER" property="replyCount" />
+    <result column="uavatar" jdbcType="VARCHAR" property="uavatar" />
     <result column="star_count" jdbcType="INTEGER" property="starCount" />
     <result column="watch_count" jdbcType="INTEGER" property="watchCount" />
   </resultMap>
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pid, uid, unickname, title, content, post_time, last_reply_time, reply_count, star_count, 
-    watch_count
+    pid, uid, unickname, title, content, post_time, last_reply_time, reply_count, uavatar, 
+    star_count, watch_count
   </sql>
   <select id="selectByExample" parameterType="com.gdut.bbs.domain.PostExample" resultMap="BaseResultMap">
     select
@@ -108,12 +109,12 @@
   <insert id="insert" parameterType="com.gdut.bbs.domain.Post">
     insert into post (pid, uid, unickname, 
       title, content, post_time, 
-      last_reply_time, reply_count, star_count, 
-      watch_count)
+      last_reply_time, reply_count, uavatar, 
+      star_count, watch_count)
     values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{unickname,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{postTime,jdbcType=TIMESTAMP}, 
-      #{lastReplyTime,jdbcType=TIMESTAMP}, #{replyCount,jdbcType=INTEGER}, #{starCount,jdbcType=INTEGER}, 
-      #{watchCount,jdbcType=INTEGER})
+      #{lastReplyTime,jdbcType=TIMESTAMP}, #{replyCount,jdbcType=INTEGER}, #{uavatar,jdbcType=VARCHAR}, 
+      #{starCount,jdbcType=INTEGER}, #{watchCount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.Post">
     insert into post
@@ -141,6 +142,9 @@
       </if>
       <if test="replyCount != null">
         reply_count,
+      </if>
+      <if test="uavatar != null">
+        uavatar,
       </if>
       <if test="starCount != null">
         star_count,
@@ -173,6 +177,9 @@
       </if>
       <if test="replyCount != null">
         #{replyCount,jdbcType=INTEGER},
+      </if>
+      <if test="uavatar != null">
+        #{uavatar,jdbcType=VARCHAR},
       </if>
       <if test="starCount != null">
         #{starCount,jdbcType=INTEGER},
@@ -215,6 +222,9 @@
       <if test="record.replyCount != null">
         reply_count = #{record.replyCount,jdbcType=INTEGER},
       </if>
+      <if test="record.uavatar != null">
+        uavatar = #{record.uavatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.starCount != null">
         star_count = #{record.starCount,jdbcType=INTEGER},
       </if>
@@ -236,6 +246,7 @@
       post_time = #{record.postTime,jdbcType=TIMESTAMP},
       last_reply_time = #{record.lastReplyTime,jdbcType=TIMESTAMP},
       reply_count = #{record.replyCount,jdbcType=INTEGER},
+      uavatar = #{record.uavatar,jdbcType=VARCHAR},
       star_count = #{record.starCount,jdbcType=INTEGER},
       watch_count = #{record.watchCount,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -266,6 +277,9 @@
       <if test="replyCount != null">
         reply_count = #{replyCount,jdbcType=INTEGER},
       </if>
+      <if test="uavatar != null">
+        uavatar = #{uavatar,jdbcType=VARCHAR},
+      </if>
       <if test="starCount != null">
         star_count = #{starCount,jdbcType=INTEGER},
       </if>
@@ -284,6 +298,7 @@
       post_time = #{postTime,jdbcType=TIMESTAMP},
       last_reply_time = #{lastReplyTime,jdbcType=TIMESTAMP},
       reply_count = #{replyCount,jdbcType=INTEGER},
+      uavatar = #{uavatar,jdbcType=VARCHAR},
       star_count = #{starCount,jdbcType=INTEGER},
       watch_count = #{watchCount,jdbcType=INTEGER}
     where pid = #{pid,jdbcType=INTEGER}

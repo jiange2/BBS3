@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="js/validate-login.js"></script>
+<script src="js/parts/login-modal.js"></script>
 <div id="login-model" class="modal enter-post fade bs-example-modal-sm" tabindex="-1" role="dialog"
      aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">
@@ -21,6 +21,7 @@
             <div class="modal-body">
                 <div class="login-form-wrap form-wrap">
                     <form id="login-form">
+                        <input type="text" name="token" value="${token}" hidden>
                         <div class="form-group input-group-lg">
                             <span class="input-before glyphicon glyphicon-user"></span>
                             <input type="text" class="form-control" name="username"

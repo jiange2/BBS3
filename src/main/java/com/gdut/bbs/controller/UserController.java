@@ -64,6 +64,7 @@ public class UserController {
         return result;
     }
 
+    @Token(remove = true)
     @RequestMapping("/login")
     @ResponseBody
     public Map<String, Object> login(User user, HttpSession session, String verCode) {

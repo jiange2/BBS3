@@ -159,8 +159,9 @@ body {
     .avatar-wrap{
       .avatar{
         border-radius: 50%;
-        width: 32px;
-        height: 32px;
+        width: 40px;
+        height: 40px;
+        margin-top: -5px;
         &:hover{
           border: 2px solid #e40000;
         }
@@ -203,7 +204,7 @@ body {
 }
 
 .footer-wrap {
-  height: 50px;
+  height: 300px;
   .footer {
     height: 50px;
     padding: 15px 0;

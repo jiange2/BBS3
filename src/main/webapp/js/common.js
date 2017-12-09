@@ -1,16 +1,16 @@
 $(function () {
     fillSize();
 
+    //搜索框弹出
     var $searchQuery = $('.search-query');
-
     $searchQuery.on('focus',function () {
         $(this).nextAll('.dropdown').show();
     });
-
     $searchQuery.on('blur',function () {
         $(this).nextAll('.dropdown').fadeOut(500);
     });
 
+    //消息
     $('.show-comment-btn').on('click',function () {
         var $this = $(this);
         if($this.hasClass('comment-open')){
@@ -21,6 +21,7 @@ $(function () {
         $this.parents('.item-content').nextAll('.reply-comment-wrap').toggle();
     });
 
+    //
     $('.nav-select .dropdown-menu a').on('click',function () {
         var $this = $(this);
         var targetId = $this.attr('href');
@@ -34,14 +35,17 @@ $(function () {
         $target.addClass('active');
     });
 
+    //刷新验证码
     $('.flesh-ver-code').on('click',function () {
         fleshVerCode();
     });
 
+    //
     $(window).resize(function () {
         fillSize();
     });
 
+    //浮动按钮组
     (function () {
         var hideFlag = true;
         var animateTime = 300;
@@ -69,10 +73,6 @@ $(function () {
         $('body,html').trigger('scroll');
     })();
 
-    if($(window).width() > 768){
-        $("[data-toggle='tooltip']").tooltip();
-    }
-
     $('.add-post-btn').on('click',function () {
         $('#post-modal').modal('show');
     });
@@ -86,7 +86,34 @@ $(function () {
             $(this).find('.submit-btn').trigger('click');
         }
     });
+
+    //初始化toastr
+    toastr.options = {
+        closeButton: false,
+        debug: false,
+        progressBar: true,
+        positionClass: "toast-bottom-center",
+        onclick: null,
+        showDuration: "300",
+        hideDuration: "1000",
+        timeOut: "2000",
+        extendedTimeOut: "1500",
+        showEasing: "swing",
+        hideEasing: "linear",
+        showMethod: "fadeIn",
+        hideMethod: "fadeOut"
+    };
+    //初始化tooltip
+    if($(window).width() > 768){
+        $("[data-toggle='tooltip']").tooltip();
+    }
+
+    $('.token-btn').on('click',function () {
+        getToken();
+    });
 });
+
+
 
 function fillSize(){
     $('.absolute-screen-width-100').each(function () {
@@ -110,6 +137,24 @@ function fillSize(){
 function fleshVerCode() {
     var verCode = $('#ver-code');
     verCode.attr('src','/verify/verCode?timestamp='+new Date().getTime());
+}
+
+function getToken() {
+    var $token = $('input[name=token]');
+    if($token.val() ===　""){
+        reFleshToken();
+    }
+}
+
+function reFleshToken() {
+    var $token = $('input[name=token]');
+    $.ajax({
+        url:'/verify/getToken',
+        dataType:'text',
+        success:function (data) {
+            $token.val(data);
+        }
+    })
 }
 
 

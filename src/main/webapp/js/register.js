@@ -189,13 +189,13 @@ $(function () {
                     }else{
                         showError(data.errors);
                         afterSend($this);
-                        getToken();
+                        reFleshToken();
                     }
                 },error:function () {
                     $('.error-modal .error-massage').html("提交失败");
                     $('.error-modal').modal('show');
                     afterSend($this);
-                    getToken();
+                    reFleshToken();
                 }
             })
         }
@@ -217,15 +217,6 @@ $(function () {
         ele.html(message+time+"秒");
     }
 
-    function getToken() {
-        $.ajax({
-            url:'/verify/getToken',
-            dataType:'text',
-            success:function (data) {
-                $('input[name=token]').val(data);
-            }
-        })
-    }
 
     function showError(errors) {
         var validator = $('#register-form').bootstrapValidator('validate');

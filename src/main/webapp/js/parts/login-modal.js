@@ -69,37 +69,39 @@ $(function () {
             var $username = $('input[name=username]').val();
             var $password = $('input[name=password]').val();
             var $verCode = $('input[name=verCode]').val();
+            var $token = $('input[name=token]').val();
             $.ajax({
                 url: '/user/login',
                 method: 'post',
                 data:{
                     username:$username.trim(),
                     password:$password.trim(),
-                    verCode:$verCode.trim()
+                    verCode:$verCode.trim(),
+                    token:$token.trim()
                 },
                 dataType: 'json',
                 beforeSend:function () {
-                    $this.css('disabled',true);
-                    $this.addClass('opacity',0.6);
-                    $this.html("登录中...");
+                    $this.attr('disabled',true);
+                    $this.html('<img src="img/loading2.gif" style="width: 18px;height: 18px;"/>');
                 },
                 success:function (data) {
                     if(data.status === 'success'){
-                        location.reload(true);
+                        toastr.success('登录成功');
+                        setInterval(function () {
+                            location.reload(true);
+                        },1500);
                     }else{
-                        $('.error-modal .error-massage').html(data.errors);
-                        $('.error-modal').modal('show');
-                        $this.css('disabled',false);
-                        $this.addClass('opacity',1);
+                        toastr.error(data.errors);
+                        $this.attr('disabled',false);
                         $this.html("登录");
+                        reFleshToken();
                         fleshVerCode();
                     }
-                }, error:function (data) {
-                    $('.error-modal .error-massage').html("提交失败");
-                    $('.error-modal').modal('show');
-                    $this.css('disabled',false);
-                    $this.addClass('opacity',1);
+                }, error:function () {
+                    toastr.error("提交失败请重试!");
+                    $this.attr('disabled',false);
                     $this.html("登录");
+                    reFleshToken();
                     fleshVerCode();
                 }
             })

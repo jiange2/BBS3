@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="my" uri="http://www.gdut.bbs.tag"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -18,6 +20,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
+    <link href="css/toastr.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,6 +35,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrapValidator.min.js"></script>
     <script src="js/common.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/index.js"></script>
 </head>
 <body>
 
@@ -42,12 +47,13 @@
 <c:if test="${user == null}">
     <jsp:include page="parts/login-model.jsp"/>
 </c:if>
-<jsp:include page="parts/error-modal.jsp"/>
 <!-- 右下按钮组 -->
 <jsp:include page="parts/fix-btn-group.jsp"/>
 
 <!-- 提交模态框 -->
-<jsp:include page="parts/post-modal.jsp"/>
+<c:if test="${user != null}">
+    <jsp:include page="parts/post-modal.jsp"/>
+</c:if>
 <div class="container-wrap">
     <div class="container">
         <div class="content-wrap clearfix">
@@ -62,257 +68,16 @@
                 </div>
                 <div class="post-list">
                     <div class="post-list-body">
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                        <a class="avatar pull-left">
-                            <img src="img/ava.png">
-                        </a>
-                        <div class="post-content">
-                            <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                            <p class="post-sub">
-                                <a href="#"><span class="badge">主题</span></a>
-                                <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                <a href="#" class="pull-right">回复</a>
-                            </p>
-                        </div>
-                    </div>
-                        <div class="post-item clearfix">
-                        <a class="avatar pull-left">
-                            <img src="img/ava.png">
-                        </a>
-                        <div class="post-content">
-                            <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                            <p class="post-sub">
-                                <a href="#"><span class="badge">主题</span></a>
-                                <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                <a href="#" class="pull-right">回复</a>
-                            </p>
-                        </div>
-                    </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-item clearfix">
-                            <a class="avatar pull-left">
-                                <img src="img/ava.png">
-                            </a>
-                            <div class="post-content">
-                                <p class="post-title"><a href="#">有没有办法修改一下博客网页上面的字体</a></p>
-                                <p class="post-sub">
-                                    <a href="#"><span class="badge">主题</span></a>
-                                    <span>
-                                    • <a href="#">user</a> 发起了问题 • 1 人关注 • 0 个回复 • 325 次浏览 • 2017-10-07 15:47
-                                </span>
-                                    <a href="#" class="pull-right">回复</a>
-                                </p>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <ul class="nav nav-pills nav-justified page-select">
-                    <li><a href="#">&laquo;</a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">&raquo;</a></li>
+
+                    <%--<li><a>&laquo;</a></li>
+                    <li><a href="/post/list/1">&laquo;</a></li>
+                        <li class="active"><a></a></li>
+                        <li><a href="/post/list/"></a></li>
+                    <li><a>&raquo;</a></li>
+                    <li><a href="/post/list/">&raquo;</a></li>--%>
                 </ul>
             </div>
             <div class="side-bar hidden-xs hidden-sm col-md-3">
@@ -338,7 +103,5 @@
         </span>
     </div>
 </div>
-</body>
-</html>
 </body>
 </html>

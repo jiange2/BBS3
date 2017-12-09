@@ -28,8 +28,6 @@
     <!--[if lt IE 9]><script src="js/html5shiv.min.js"></script><script src="js/respond.min.js"></script><![endif]-->
 </head>
 <body>
-
-<jsp:include page="parts/error-modal.jsp"/>
 <div class="body-bg absolute-screen-width-100 absolute-screen-height-100">
     <canvas id="body-bg-canvas">浏览器不支持canvas</canvas>
 </div>

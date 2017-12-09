@@ -82,6 +82,7 @@ $(function () {
         
     }
 
+
     $('.post-btn').on('click',function () {
         var $form = $('#post-form');
         $form.bootstrapValidator('validate');
@@ -89,12 +90,13 @@ $(function () {
             var $this = $(this);
             var title = $('input[name=title]').val();
             var content = $('#post-content').summernote('code');
+            var $token = $('input[name=token]').val();
             if(removeTag(content) === ""){
-                alert("内容不能为空");
+                toastr.error("内容不能为空!");
                 return false;
             }
             $.ajax({
-                data: {title:title,content:content},
+                data: {title:title,content:content,token:$token},
                 type: "POST",
                 url: "post/add",
                 dataType: "json",
@@ -105,28 +107,23 @@ $(function () {
                 },
                 success: function(data) {
                     if(data.result === "success"){
-                        $this.html("提交");
+                        toastr.success("提交提交成功!");
+                        setInterval(function () {
+                            location.reload(true);
+                        },1500);
                     } else{
+                        toastr.error("提交失败!");
                         $this.html("提交");
-                        alert(data.message);
+                        $this.attr('disabled',false);
                     }
-                    $this.attr('disabled',false);
                 },error: function () {
                     $this.html("提交");
-                    alert('提交失败');
+                    toastr.error("提交失败!");
                     $this.attr('disabled',false);
                 }
             });
         }
     });
-
-    function beforeSend(sendingMessage,obj) {
-    }
-
-    function afterSend(obj) {
-        obj.html(obj.attr('data-toggle'));
-        obj.attr('disabled',false);
-    }
 
     function removeTag(content) {
         return content.replace(/<.*?>(.*?)<\/.*?>/g,"$1").replace("<br>","");

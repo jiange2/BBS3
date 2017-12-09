@@ -53,7 +53,7 @@
                 <c:choose>
                     <c:when test="${user == null}">
                         <li>
-                            <a class="btn-login btn btn-primary">登录</a>
+                            <a class="btn-login btn btn-primary  token-btn">登录</a>
                         </li>
                         <li>
                             <a href="register" class="btn btn-success">注册</a>

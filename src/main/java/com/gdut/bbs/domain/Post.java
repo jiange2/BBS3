@@ -1,5 +1,7 @@
 package com.gdut.bbs.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -10,10 +12,11 @@ public class Post {
 
     private String unickname;
 
-    @NotNull(message = "{post.tilte.notNull}")
+    @NotNull
+    @Length(min = 5,max = 30)
     private String title;
 
-    @NotNull(message = "{post.content.notNull}")
+    @NotNull
     private String content;
 
     private Date postTime;
@@ -25,6 +28,16 @@ public class Post {
     private Integer starCount;
 
     private Integer watchCount;
+
+    private String uavatar;
+
+    public String getUavatar() {
+        return uavatar;
+    }
+
+    public void setUavatar(String uavatar) {
+        this.uavatar = uavatar;
+    }
 
     public Integer getPid() {
         return pid;
@@ -105,6 +118,4 @@ public class Post {
     public void setWatchCount(Integer watchCount) {
         this.watchCount = watchCount;
     }
-
-
 }

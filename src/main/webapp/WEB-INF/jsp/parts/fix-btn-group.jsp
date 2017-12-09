@@ -18,14 +18,14 @@
             <c:choose>
                 <c:when test="${user !=null}">
                     <li>
-                        <a class="add-post-btn btn btn-default" data-container="body" data-toggle="tooltip" data-placement="left" data-original-title="发表帖子">
+                        <a class="add-post-btn btn btn-default token-btn" data-container="body" data-toggle="tooltip" data-placement="left" data-original-title="发表帖子">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </li>
                 </c:when>
                 <c:otherwise>
                     <li>
-                        <a class="btn btn-default btn-login" data-container="body" data-toggle="tooltip" data-placement="left" data-original-title="发表帖子">
+                        <a class="btn btn-default btn-login token-btn" data-container="body" data-toggle="tooltip" data-placement="left" data-original-title="发表帖子">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </li>
