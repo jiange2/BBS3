@@ -2,6 +2,7 @@ package com.gdut.bbs.util;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.junit.Test;
 
 public class XssUtil {
 
@@ -15,9 +16,10 @@ public class XssUtil {
         whitelist.addAttributes("table","class");
         whitelist.addAttributes("font","face");
         whitelist.addAttributes("font","src");
-        whitelist.addProtocols("img","scr","//");
-        whitelist.addAttributes("embed","src");
-        whitelist.addProtocols("embed","scr","//player.youku.com","http://v.qq.com/iframe/player.html");
+        whitelist.addAttributes("img","src");
+        whitelist.removeProtocols("img","src","http", "https");
+        whitelist.addAttributes("iframe","src","allowfullscreen","webkitallowfullscreen","mozallowfullscreen");
+        whitelist.addProtocols("iframe","src","//player.youku.com","http://v.qq.com/iframe/player.html");
     }
 
     public static String cleanTag(String text){
@@ -27,4 +29,5 @@ public class XssUtil {
     public static String cleanAll(String text){
         return text.replaceAll("<","&lt;").replaceAll(">","&gt;");
     }
+
 }

@@ -145,6 +145,42 @@ body {
     font-size: 12px;
     color: #ffffff; }
 
+@media all {
+  .nav-justified li {
+    display: table-cell;
+    width: 1%; }
+    .nav-justified li a {
+      margin-bottom: 0; } }
+
+.nav-pills {
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #eeeeee; }
+  .nav-pills li {
+    cursor: pointer;
+    padding: 0 1px;
+    background-color: transparent; }
+    .nav-pills li a {
+      cursor: pointer;
+      padding: 0;
+      line-height: 40px;
+      color: #5c5c5c; }
+      .nav-pills li a:hover {
+        color: #0f0f0f;
+        background-color: #FFF; }
+  .nav-pills .active a {
+    color: #0f0f0f !important;
+    background-color: #FFF !important; }
+
+.page-select {
+  padding: 3px;
+  height: 40px; }
+  .page-select li {
+    height: auto; }
+    .page-select li a {
+      line-height: 34px;
+      padding: 0; }
+
 .user-content {
   padding: 0; }
   .user-content .user-head .head {

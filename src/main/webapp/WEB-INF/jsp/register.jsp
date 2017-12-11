@@ -83,7 +83,8 @@
 <script src="js/bootstrapValidator.min.js"></script>
 <script src="js/common.js"></script>
 <script src="js/bgDraw.js"></script>
-<script src="js/validate.js"></script>
+<script src="js/register.js"></script>
+<script src="js/toastr.min.js"></script>
 <script>
 </script>
 </body>

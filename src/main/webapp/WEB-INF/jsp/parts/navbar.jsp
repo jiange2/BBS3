@@ -39,12 +39,13 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
+
             <div class="collapse navbar-collapse absolute-screen-width-100" id="menu-collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" class="active"><span class="glyphicon glyphicon-align-left"></span> 主页</a>
+                        <a href="#" <c:if test="${param.active == 'index'}">class="active"</c:if>><span class="glyphicon glyphicon-align-left"></span> 主页</a>
                     </li>
-                    <li><a href="#"><span class="glyphicon glyphicon-comment"></span> 话题</a></li>
+                    <li><a href="#" <c:if test="${param.active == 'topic'}">class="active"</c:if>><span class="glyphicon glyphicon-comment"></span> 话题</a></li>
                 </ul>
             </div>
         </div>

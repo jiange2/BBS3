@@ -45,4 +45,17 @@ public class PostServiceImpl implements PostService{
 
         return postMapper.selectByExample(example);
     }
+
+    @Override
+    public Post selectPostById(Integer id) {
+        return postMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void addWatchCount(Post post) {
+        post.setWatchCount(post.getWatchCount()+1);
+        postMapper.updateByPrimaryKey(post);
+    }
+
+
 }

@@ -9,4 +9,8 @@ public interface PostService {
     int insertPost(Post post, User user);
 
     List<Post> selectPostList(Integer page);
+
+    Post selectPostById(Integer id);
+
+    void addWatchCount(Post post);
 }

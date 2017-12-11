@@ -14,15 +14,18 @@
     }
     a{
       text-align: center;
-      color: #9aaabf;
+      color: #a6a6a6;
       //padding:  7px 8px 1px 9px;
-      padding-left: 10px;
-      width: 40px;
+      width: 50px;
       height: 40px;
       font-size: 20px;
+
+
+      background-color: #d9d9d9;
+      border-radius: 3px;
     }
     .back-to-top-btn{
-      padding-left: 8px;
+      padding-left: 10px;
     }
     .tooltip{
       position: absolute;

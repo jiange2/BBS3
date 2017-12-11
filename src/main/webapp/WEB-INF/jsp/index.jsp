@@ -1,8 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"
            uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="my" uri="http://www.gdut.bbs.tag"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -42,7 +40,9 @@
 
 <!-- 背景 -->
 <jsp:include page="parts/background.jsp"/>
-<jsp:include page="parts/navbar.jsp"/>
+<jsp:include page="parts/navbar.jsp">
+    <jsp:param name="active" value="index"/>
+</jsp:include>
 <!-- 登录模态框 -->
 <c:if test="${user == null}">
     <jsp:include page="parts/login-model.jsp"/>
@@ -68,6 +68,7 @@
                 </div>
                 <div class="post-list">
                     <div class="post-list-body">
+                        <div class="loading-wrap"><img src="img/loading5.gif"/></div>
                     </div>
                 </div>
                 <ul class="nav nav-pills nav-justified page-select">

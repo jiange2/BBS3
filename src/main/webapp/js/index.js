@@ -1,18 +1,19 @@
 $(function () {
-    
     getPostList(getCurrentId());
     var $pageSelect = $('.page-select');
     $pageSelect.on('click','.page-item',function () {
-        $('body,html').animate({ scrollTop: 0 }, 0);
+        if($(this).parent().hasClass("active"))
+            return;
         var page = $(this).attr('data-toggle');
-        window.location.hash = '/index/'+page;
+        $('body,html').animate({ scrollTop: 0 }, 0);
+        window.location.hash = '/new/'+page;
         getPostList(page);
     });
 });
 
 function getCurrentId() {
     var text = window.location.hash;
-    var reg = /#\/index\/(\d+)/;
+    var reg = /(?:\w+\/)(\d+)/;
     var match = text.match(reg);
     if(match && match[1].length){
         if(match[1] > 0)
@@ -25,12 +26,16 @@ function getCurrentId() {
 }
 
 function getPostList(id) {
+    var $postListBody = $('.post-list-body');
     $.ajax({
         url:"post/list/"+id,
         method: "post",
+        beforeSend:function () {
+            $postListBody.html(getLoadingPic());
+        },
         success:function (data) {
-            showList(data.posts,$('.post-list-body'));
-            showPage(data.pageInfo,$('.page-select'));
+            $postListBody.html(getList(data.posts));
+            $('.page-select').html(getPage(data.pageInfo));
             return true;
         },error:function () {
             return false;
@@ -38,7 +43,11 @@ function getPostList(id) {
     });
 }
 
-function showList(posts,$postContent) {
+function getLoadingPic() {
+    return '<div class="loading-wrap"><img src="img/loading5.gif"/></div>';
+}
+
+function getList(posts) {
     var html = '';
 
     var pattern =
@@ -47,7 +56,7 @@ function showList(posts,$postContent) {
             '<img src="${post.uavatar}">' +
         '</a>' +
         '<div class="post-content">' +
-            '<p class="post-title"><a href="#">${post.title}</a></p>' +
+            '<p class="post-title"><a href="post/${post.pid}">${post.title}</a></p>' +
             '<p class="post-sub">' +
                 '<a href="#"><span class="badge">主题</span></a>' +
                     '<span>' +
@@ -60,6 +69,7 @@ function showList(posts,$postContent) {
 
     for(var i in posts){
         html += pattern.replace('${post.uavatar}',posts[i].uavatar)
+            .replace('${post.pid}',posts[i].pid)
             .replace('${post.title}',posts[i].title)
             .replace('${post.unickname}',posts[i].unickname)
             .replace('${post.starCount}',posts[i].starCount)
@@ -67,7 +77,7 @@ function showList(posts,$postContent) {
             .replace('${post.watchCount}',posts[i].watchCount)
             .replace('${post.lastReplyTime}',formatDate(posts[i].lastReplyTime));
     }
-    $postContent.html(html);
+    return html;
 }
 
 Date.prototype.format = function (fmt) { //author: meizz
@@ -89,7 +99,7 @@ Date.prototype.format = function (fmt) { //author: meizz
     return fmt;
 };
 
-function showPage(pageInfo,$pageTag) {
+function getPage(pageInfo) {
 
     var html = '';
     var pattern = '<li  class="${active}"><a class="page-item" data-toggle="${realPage}">${page}</a></li>';
@@ -143,7 +153,7 @@ function showPage(pageInfo,$pageTag) {
             .replace("${active}",'')
             .replace("${realPage}",totalPage+'');
 
-    $pageTag.html(html);
+    return html;
 }
 
 function formatDate(dateTime) {

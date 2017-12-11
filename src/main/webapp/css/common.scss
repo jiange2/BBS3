@@ -214,4 +214,61 @@ body {
   }
 }
 
+.nav-justified{
+  @media all {
+    li{
+      display: table-cell;
+      width: 1%;
+      a{
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.nav-pills{
+  border-radius: 5px;
+  $height: 50px;
+  $padding: 5px;
+  padding: $padding;
+  background-color: #eeeeee;
+
+  li{
+    cursor: pointer;
+    padding: 0 1px;
+    background-color: transparent;
+    a{
+      cursor: pointer;
+      padding: 0;
+      line-height: $height - $padding*2;
+      color: lighten(#0f0f0f,30%);
+      &:hover{
+        color: #0f0f0f;
+        background-color: #FFF;
+      }
+    }
+  }
+  .active{
+    a{
+      color: #0f0f0f !important;
+      background-color: #FFF !important;
+    }
+  }
+}
+
+.page-select{
+  $padding: 3px;
+  $height: 40px;
+  padding: $padding;
+  height: $height;
+  li{
+    height: auto;
+    a{
+      line-height: $height - $padding*2;
+      padding: 0;
+    }
+  }
+}
+
+
 

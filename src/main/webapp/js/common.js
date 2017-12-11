@@ -10,18 +10,6 @@ $(function () {
         $(this).nextAll('.dropdown').fadeOut(500);
     });
 
-    //消息
-    $('.show-comment-btn').on('click',function () {
-        var $this = $(this);
-        if($this.hasClass('comment-open')){
-            $this.removeClass('comment-open');
-        }else{
-            $this.addClass('comment-open');
-        }
-        $this.parents('.item-content').nextAll('.reply-comment-wrap').toggle();
-    });
-
-    //
     $('.nav-select .dropdown-menu a').on('click',function () {
         var $this = $(this);
         var targetId = $this.attr('href');

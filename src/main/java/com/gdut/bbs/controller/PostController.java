@@ -11,16 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/post")
@@ -62,5 +63,21 @@ public class PostController {
         map.put("pageInfo",pageInfo);
 
         return map;
+    }
+
+    @RequestMapping("{pid}")
+    public ModelAndView getPost(@PathVariable Integer pid,HttpSession session){
+        Set<Integer> readSet = (Set<Integer>) session.getAttribute("readSet");
+        if(readSet == null){
+            session.setAttribute("readSet",(readSet = new HashSet<>()));
+        }
+        ModelAndView mv = new ModelAndView("post");
+        Post post = postService.selectPostById(pid);
+        mv.addObject("post",post);
+        if(!readSet.contains(pid)){
+            postService.addWatchCount(post);
+            readSet.add(pid);
+        }
+        return mv;
     }
 }
