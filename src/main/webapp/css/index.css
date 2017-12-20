@@ -5,6 +5,9 @@
   font-size: 16px;
   color: #999; }
 
+a {
+  cursor: hand !important; }
+
 body {
   background-color: #ededed; }
 
@@ -50,80 +53,6 @@ body {
 
 .container {
   width: 990px; }
-
-.nav-wrap {
-  background-color: #FFF;
-  height: 50px;
-  width: 100%;
-  box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
-  .nav-wrap .search-box {
-    margin: 10px 0;
-    position: relative;
-    float: left; }
-    .nav-wrap .search-box input {
-      width: 260px;
-      height: 32px; }
-    .nav-wrap .search-box .dropdown {
-      position: absolute;
-      top: 105%;
-      width: 335px;
-      z-index: 1000; }
-      .nav-wrap .search-box .dropdown .btn {
-        font-size: 10px;
-        padding: 3px 7px; }
-  .nav-wrap .nav-menu {
-    margin: 0;
-    border: none;
-    float: left;
-    font-size: 15px;
-    background-color: transparent; }
-    .nav-wrap .nav-menu .nav li .active {
-      background-color: #fff;
-      font-weight: bold;
-      color: black; }
-    .nav-wrap .nav-menu .nav li .active:after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      z-index: 400;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px 5px 0 5px;
-      border-style: solid;
-      border-color: #fff transparent;
-      display: block;
-      width: 0; }
-    .nav-wrap .nav-menu .nav li a {
-      background-color: #fff;
-      color: #636363; }
-    .nav-wrap .nav-menu .nav li a:hover {
-      background-color: #fff;
-      font-weight: bold;
-      color: black; }
-  .nav-wrap .nav-user {
-    float: right;
-    margin-top: 10px; }
-    .nav-wrap .nav-user .btn {
-      padding-left: 22px;
-      padding-right: 22px;
-      border-radius: 0; }
-    .nav-wrap .nav-user .avatar-wrap .avatar {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      margin-top: -5px; }
-      .nav-wrap .nav-user .avatar-wrap .avatar:hover {
-        border: 2px solid #e40000; }
-  .nav-wrap .dropdown .dropdown-menu {
-    width: 306px;
-    height: 318px;
-    right: -50%;
-    left: auto;
-    top: 120%;
-    border: none;
-    border-radius: 0 0 10px 10px;
-    border-top: 0;
-    box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
 
 .container-wrap {
   background: transparent;
@@ -257,52 +186,124 @@ body {
             color: #FFF;
             border: 1px solid #0f92f7; }
 
-.post-modal .editor {
-  padding: 10px; }
-.post-modal .note-editor {
-  margin-bottom: 0 !important; }
-.post-modal .post-form-wrap {
-  position: relative; }
-
-.uploading-img {
-  bottom: 50px;
-  right: 25px;
-  position: absolute; }
-
 .fixed-btn-group {
   z-index: 1049;
   position: fixed;
-  bottom: -50px;
+  bottom: -40px;
   right: 20px; }
-  .fixed-btn-group li {
-    position: relative;
-    margin-bottom: 10px; }
-    .fixed-btn-group li:last-child {
-      margin-bottom: 0; }
-    .fixed-btn-group li a {
-      text-align: center;
-      color: #a6a6a6;
-      width: 50px;
-      height: 40px;
-      font-size: 20px;
-      background-color: #d9d9d9;
-      border-radius: 3px; }
-    .fixed-btn-group li .back-to-top-btn {
-      padding-left: 10px; }
-    .fixed-btn-group li .tooltip {
-      position: absolute;
-      /*top: 60px !important;
-      left: -74px !important;*/ }
+  .fixed-btn-group ul {
+    margin-bottom: 0; }
+    .fixed-btn-group ul li {
+      position: relative;
+      margin-bottom: 7px; }
+      .fixed-btn-group ul li:last-child {
+        margin-bottom: 0; }
+      .fixed-btn-group ul li a {
+        padding: 0;
+        text-align: center;
+        color: #a6a6a6;
+        width: 50px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #d9d9d9;
+        border-radius: 0; }
+        .fixed-btn-group ul li a span {
+          line-height: 36px; }
 
 .modal-open .fixed-btn-group {
   display: none; }
+
+.nav-wrap {
+  background-color: #FFF;
+  height: 50px;
+  width: 100%;
+  box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
+  .nav-wrap .search-box {
+    margin: 10px 0;
+    float: left; }
+    .nav-wrap .search-box .navbar-search {
+      position: relative; }
+      .nav-wrap .search-box .navbar-search input {
+        width: 260px;
+        height: 32px; }
+      .nav-wrap .search-box .navbar-search .search-box-dropdown {
+        position: absolute;
+        top: 109%;
+        width: 335px;
+        z-index: 1000; }
+        .nav-wrap .search-box .navbar-search .search-box-dropdown .btn {
+          font-size: 10px;
+          padding: 3px 7px; }
+  .nav-wrap .nav-menu {
+    margin: 0;
+    border: none;
+    float: left;
+    font-size: 15px;
+    background-color: transparent; }
+    .nav-wrap .nav-menu .nav li .active {
+      background-color: #fff;
+      font-weight: bold;
+      color: black; }
+    .nav-wrap .nav-menu .nav li .active:after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      z-index: 400;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px 5px 0 5px;
+      border-style: solid;
+      border-color: #fff transparent;
+      display: block;
+      width: 0; }
+    .nav-wrap .nav-menu .nav li a {
+      background-color: #fff;
+      color: #636363; }
+    .nav-wrap .nav-menu .nav li a:hover {
+      background-color: #fff;
+      font-weight: bold;
+      color: black; }
+  .nav-wrap .nav-user {
+    float: right;
+    margin-top: 10px; }
+    .nav-wrap .nav-user .btn {
+      padding-left: 22px;
+      padding-right: 22px;
+      border-radius: 0; }
+    .nav-wrap .nav-user .avatar-wrap .avatar {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin-top: -5px; }
+      .nav-wrap .nav-user .avatar-wrap .avatar:hover {
+        border: 2px solid #e40000; }
+  .nav-wrap .dropdown .dropdown-menu {
+    width: 306px;
+    height: 318px;
+    right: -50%;
+    left: auto;
+    top: 109%;
+    border: none;
+    border-radius: 0 0 10px 10px;
+    border-top: 0;
+    box-shadow: 0 8px 16px 0 rgba(7, 17, 27, 0.2); }
+
+.modal-body {
+  position: relative; }
+  .modal-body .uploading-img {
+    position: absolute;
+    bottom: 60px;
+    left: 30px; }
+  .modal-body .count-tip {
+    color: #838383;
+    position: absolute;
+    bottom: 8px;
+    left: 15px; }
 
 .container-wrap .content-wrap .main-content {
   padding-bottom: 20px; }
   .container-wrap .content-wrap .main-content .post-list {
     margin-bottom: 20px; }
-    .container-wrap .content-wrap .main-content .post-list .loading-wrap {
-      padding: 45%; }
     .container-wrap .content-wrap .main-content .post-list .post-item {
       position: relative;
       padding-top: 20px;

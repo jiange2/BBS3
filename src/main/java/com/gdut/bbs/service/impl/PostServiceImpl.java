@@ -22,27 +22,21 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public int insertPost(Post post, User user) {
+        post.init();
         post.setContent(XssUtil.cleanTag(post.getContent()));
         post.setUid(user.getUserid());
-        Date now = new Date();
-        post.setLastReplyTime(now);
-        post.setStarCount(0);
-        post.setReplyCount(0);
-        post.setWatchCount(0);
-        post.setPostTime(now);
         post.setUavatar(user.getAvatar());
         post.setUnickname(user.getNickname());
         post.setTitle(XssUtil.cleanAll(post.getTitle()));
+        System.out.println(post.getTitle()+":"+post.getContent());
         return postMapper.insert(post);
     }
 
     @Override
     public List<Post> selectPostList(Integer page) {
-
         PostExample example = new PostExample();
         example.setOrderByClause("last_reply_time desc");
         PageHelper.startPage(page,30);
-
         return postMapper.selectByExample(example);
     }
 
@@ -53,9 +47,9 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public void addWatchCount(Post post) {
-        post.setWatchCount(post.getWatchCount()+1);
-        postMapper.updateByPrimaryKey(post);
+        Post postTemp = new Post();
+        postTemp.setPid(post.getPid());
+        postTemp.setWatchCount(0);
+        postMapper.addCountByPrimaryKey(postTemp);
     }
-
-
 }

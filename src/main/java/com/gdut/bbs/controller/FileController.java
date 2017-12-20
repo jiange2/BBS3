@@ -16,8 +16,6 @@ import java.util.Map;
 @Controller
 public class FileController {
 
-
-
     @RequestMapping("/img")
     @ResponseBody
     public Map<String,Object> uploadImage(@RequestParam("file") CommonsMultipartFile[] files, HttpServletRequest request) {

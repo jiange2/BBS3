@@ -9,8 +9,14 @@
   <url>http://maven.apache.org</url>
   <properties>
     <!-- version of dependence -->
-    <servlet.version>3.1.0</servlet.version>
+    <servlet.version>3.0-alpha-1</servlet.version>
     <jsp-api.version>2.2</jsp-api.version>
+    <jstl-api.version>1.2</jstl-api.version>
+    <taglib.version>1.1.2</taglib.version>
+
+    <el-api.version>3.0.0</el-api.version>
+    <el.version>2.2.6</el.version>
+
     <junit.version>4.12</junit.version>
     <aopalliance.version>1.0</aopalliance.version>
     <aspectjweaver.version>1.8.0</aspectjweaver.version>
@@ -35,57 +41,68 @@
     <validation.version>2.0.0.Final</validation.version>
     <bval.version>0.5</bval.version>
     <hibernate.version>5.4.1.Final</hibernate.version>
-    <el-api.version>3.0.0</el-api.version>
-    <el.version>2.2.6</el.version>
     <jsoup.version>1.11.2</jsoup.version>
     <!-- plugin config -->
-    <plugin.tomcat.version>2.1</plugin.tomcat.version>
+    <plugin.tomcat.version>2.2</plugin.tomcat.version>
     <plugin.tomcat.port>8080</plugin.tomcat.port>
-    <plugin.tomcat.path>/WMS</plugin.tomcat.path>
+    <plugin.tomcat.path>/</plugin.tomcat.path>
     <plugin.maven.varsion>3.3</plugin.maven.varsion>
     <plugin.maven.jdk>1.8</plugin.maven.jdk>
   </properties>
 
   <dependencies>
-
-    <dependency>
-      <groupId>javax.servlet.jsp.jstl</groupId>
-      <artifactId>jstl-api</artifactId>
-      <version>1.2</version>
-    </dependency>
+    <!-- servlet-api -->
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
+      <artifactId>servlet-api</artifactId>
       <version>${servlet.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- jsp-api -->
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
       <version>${jsp-api.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+    <!-- jstl-api -->
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl-api</artifactId>
+      <version>${jstl-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>${jstl-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>${taglib.version}</version>
+    </dependency>
+    <!-- el-api -->
+    <dependency>
+      <groupId>javax.el</groupId>
+      <artifactId>javax.el-api</artifactId>
+      <version>${el-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- jsoup -->
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
     </dependency>
-    <dependency>
-      <groupId>javax.el</groupId>
-      <artifactId>javax.el-api</artifactId>
-      <version>${el-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.web</groupId>
-      <artifactId>javax.el</artifactId>
-      <version>${el.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>${hibernate.version}</version>
     </dependency>
+
+    <!-- javax.mail -->
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>javax.mail-api</artifactId>
@@ -97,32 +114,11 @@
       <version>${mail.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>jstl</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
     <!-- Junit dependency -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>aopalliance</groupId>
-      <artifactId>aopalliance</artifactId>
-      <version>${aopalliance.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.aspectj</groupId>
-      <artifactId>aspectjweaver</artifactId>
-      <version>${aspectjweaver.version}</version>
     </dependency>
 
     <!-- Apache commons -->
@@ -249,6 +245,16 @@
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <dependency>
+      <groupId>aopalliance</groupId>
+      <artifactId>aopalliance</artifactId>
+      <version>${aopalliance.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectjweaver.version}</version>
+    </dependency>
 
     <!-- apache shiro -->
     <dependency>
@@ -299,7 +305,6 @@
       <artifactId>druid</artifactId>
       <version>${druid.version}</version>
     </dependency>
-
 
     <!-- log4j dependency -->
     <dependency>

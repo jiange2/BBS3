@@ -1,7 +1,9 @@
 package com.gdut.bbs.service;
 
 import com.gdut.bbs.JUnit4ClassRunner;
+import com.gdut.bbs.domain.Post;
 import com.gdut.bbs.domain.User;
+import com.gdut.bbs.mapper.PostMapper;
 import com.gdut.bbs.mapper.ReplyMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,17 +16,18 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import java.lang.reflect.InvocationTargetException;
 
 @RunWith(JUnit4ClassRunner.class)
-@ContextConfiguration("classpath:config/spring/application-context-webmvc.xml")
+@ContextConfiguration("classpath:config/spring/application-context.xml")
 public class txTest {
 
     @Autowired
     public ReplyMapper replyMapper;
 
-    @Autowired
-    private LocalValidatorFactoryBean validator;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PostMapper postMapper;
 
     @Test
     public void test1() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -51,5 +54,13 @@ public class txTest {
         User user = new User();
         user.setEmail("992975556@qq.com");
         System.out.println(userService.selectEmailExist(user));
+    }
+
+    @Test
+    public void test4(){
+        Post post = new Post();
+        post.setPid(1);
+        post.setReplyCount(0);
+        postMapper.addCountByPrimaryKey(post);
     }
 }

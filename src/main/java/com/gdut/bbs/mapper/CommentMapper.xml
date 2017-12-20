@@ -1,12 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdut.bbs.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="com.gdut.bbs.domain.Comment">
     <id column="cid" jdbcType="INTEGER" property="cid" />
     <result column="rid" jdbcType="INTEGER" property="rid" />
-    <result column="pid" jdbcType="INTEGER" property="pid" />
-    <result column="comment_uid" jdbcType="INTEGER" property="commentUid" />
-    <result column="comment_unickname" jdbcType="VARCHAR" property="commentUnickname" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="unickname" jdbcType="INTEGER" property="unickname" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
   </resultMap>
@@ -69,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    cid, rid, pid, comment_uid, comment_unickname, content, comment_time
+    cid, rid, uid, unickname, content, comment_time
   </sql>
   <select id="selectByExample" parameterType="com.gdut.bbs.domain.CommentExample" resultMap="BaseResultMap">
     select
@@ -102,12 +101,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.gdut.bbs.domain.Comment">
-    insert into comment (cid, rid, pid, 
-      comment_uid, comment_unickname, content, 
-      comment_time)
-    values (#{cid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
-      #{commentUid,jdbcType=INTEGER}, #{commentUnickname,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{commentTime,jdbcType=TIMESTAMP})
+    insert into comment (cid, rid, uid, 
+      unickname, content, comment_time
+      )
+    values (#{cid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{unickname,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.Comment">
     insert into comment
@@ -118,14 +117,11 @@
       <if test="rid != null">
         rid,
       </if>
-      <if test="pid != null">
-        pid,
+      <if test="uid != null">
+        uid,
       </if>
-      <if test="commentUid != null">
-        comment_uid,
-      </if>
-      <if test="commentUnickname != null">
-        comment_unickname,
+      <if test="unickname != null">
+        unickname,
       </if>
       <if test="content != null">
         content,
@@ -141,14 +137,11 @@
       <if test="rid != null">
         #{rid,jdbcType=INTEGER},
       </if>
-      <if test="pid != null">
-        #{pid,jdbcType=INTEGER},
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
       </if>
-      <if test="commentUid != null">
-        #{commentUid,jdbcType=INTEGER},
-      </if>
-      <if test="commentUnickname != null">
-        #{commentUnickname,jdbcType=VARCHAR},
+      <if test="unickname != null">
+        #{unickname,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -173,14 +166,11 @@
       <if test="record.rid != null">
         rid = #{record.rid,jdbcType=INTEGER},
       </if>
-      <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=INTEGER},
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
       </if>
-      <if test="record.commentUid != null">
-        comment_uid = #{record.commentUid,jdbcType=INTEGER},
-      </if>
-      <if test="record.commentUnickname != null">
-        comment_unickname = #{record.commentUnickname,jdbcType=VARCHAR},
+      <if test="record.unickname != null">
+        unickname = #{record.unickname,jdbcType=INTEGER},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -197,9 +187,8 @@
     update comment
     set cid = #{record.cid,jdbcType=INTEGER},
       rid = #{record.rid,jdbcType=INTEGER},
-      pid = #{record.pid,jdbcType=INTEGER},
-      comment_uid = #{record.commentUid,jdbcType=INTEGER},
-      comment_unickname = #{record.commentUnickname,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=INTEGER},
+      unickname = #{record.unickname,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
       comment_time = #{record.commentTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -212,14 +201,11 @@
       <if test="rid != null">
         rid = #{rid,jdbcType=INTEGER},
       </if>
-      <if test="pid != null">
-        pid = #{pid,jdbcType=INTEGER},
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="commentUid != null">
-        comment_uid = #{commentUid,jdbcType=INTEGER},
-      </if>
-      <if test="commentUnickname != null">
-        comment_unickname = #{commentUnickname,jdbcType=VARCHAR},
+      <if test="unickname != null">
+        unickname = #{unickname,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -233,9 +219,8 @@
   <update id="updateByPrimaryKey" parameterType="com.gdut.bbs.domain.Comment">
     update comment
     set rid = #{rid,jdbcType=INTEGER},
-      pid = #{pid,jdbcType=INTEGER},
-      comment_uid = #{commentUid,jdbcType=INTEGER},
-      comment_unickname = #{commentUnickname,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      unickname = #{unickname,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       comment_time = #{commentTime,jdbcType=TIMESTAMP}
     where cid = #{cid,jdbcType=INTEGER}

@@ -21,7 +21,7 @@
             <div class="modal-body">
                 <div class="login-form-wrap form-wrap">
                     <form id="login-form">
-                        <input type="text" name="token" value="${token}" hidden>
+                        <input type="text" name="token" value="${requestScope.token}" hidden>
                         <div class="form-group input-group-lg">
                             <span class="input-before glyphicon glyphicon-user"></span>
                             <input type="text" class="form-control" name="username"

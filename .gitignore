@@ -9,3 +9,5 @@ out
 gen
 DBConfig.properties
 /BBS3.iml
+/src/main/resources/properties/DBConfig.properties
+/src/main/resources/properties/Email.properties

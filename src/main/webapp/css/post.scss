@@ -1,7 +1,8 @@
 @import "common";
 @import "parts/login-modal";
 @import "parts/fixed-btn-group";
-
+@import "parts/navbar";
+@import "parts/modal";
 
 @media (max-width: $screen-sm) {
   .container-wrap {
@@ -38,10 +39,16 @@
       .content{
         img{
           max-width: 100% !important;
+          position: static !important;
         }
+        p,li,b,span,ol,u,pre,div{
+          position: static !important;
+          font-size: 15px !important;
+          line-height: 16px !important;
+        }
+        word-wrap:break-word;
       }
       .post-content{
-
         .footer{
           color: #999;
           font-size: 12px;
@@ -64,6 +71,18 @@
         }
         .reply-list {
           .reply-item {
+            .item-body{
+              img{
+                max-width: 100% !important;
+                position: static !important;
+              }
+              p,li,b,span,ol,u,pre,div{
+                position: static !important;
+                font-size: 15px !important;
+                line-height: 16px !important;
+              }
+              word-wrap:break-word;
+            }
             &:first-child {
               border-top: none;
             }
@@ -84,6 +103,7 @@
               color: #6e6e6e;
             }
             .item-content {
+
               padding-top: 5px;
               padding-left: 70px;
               .item-body {
@@ -105,9 +125,16 @@
                   width: 48px;
                   border: 1px solid #f0f0f0;
                   line-height: 28px;
+                  margin-left: 5px;
+                  &:first-child{
+                    margin-left: 0;
+                  }
                 }
                 .date {
                   color: #6e6e6e;
+                  margin-bottom: 0;
+                  margin-top: 13px;
+                  font-size: 12px !important;
                 }
                 .show-comment-btn{
                   background-color: #f5f5f5;

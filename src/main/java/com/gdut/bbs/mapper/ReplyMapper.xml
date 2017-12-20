@@ -1,15 +1,18 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gdut.bbs.mapper.ReplyMapper">
   <resultMap id="BaseResultMap" type="com.gdut.bbs.domain.Reply">
     <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="uavatar" jdbcType="VARCHAR" property="uavatar" />
     <result column="pid" jdbcType="INTEGER" property="pid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="unickname" jdbcType="VARCHAR" property="unickname" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
     <result column="agree_count" jdbcType="INTEGER" property="agreeCount" />
     <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gdut.bbs.domain.Reply">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,8 +73,27 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    rid, pid, uid, unickname, content, reply_time, agree_count, comment_count
+    rid, uavatar, pid, uid, unickname, reply_time, agree_count, comment_count
   </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.gdut.bbs.domain.ReplyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from reply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.gdut.bbs.domain.ReplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -86,9 +108,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from reply
     where rid = #{rid,jdbcType=INTEGER}
   </select>
@@ -103,18 +127,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.gdut.bbs.domain.Reply">
-    insert into reply (rid, pid, uid, 
-      unickname, content, reply_time, 
-      agree_count, comment_count)
-    values (#{rid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{unickname,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, 
-      #{agreeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER})
+    insert into reply (rid, uavatar, pid, 
+      uid, unickname, reply_time, 
+      agree_count, comment_count, content
+      )
+    values (#{rid,jdbcType=INTEGER}, #{uavatar,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{unickname,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, 
+      #{agreeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.Reply">
     insert into reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="rid != null">
         rid,
+      </if>
+      <if test="uavatar != null">
+        uavatar,
       </if>
       <if test="pid != null">
         pid,
@@ -125,9 +154,6 @@
       <if test="unickname != null">
         unickname,
       </if>
-      <if test="content != null">
-        content,
-      </if>
       <if test="replyTime != null">
         reply_time,
       </if>
@@ -137,10 +163,16 @@
       <if test="commentCount != null">
         comment_count,
       </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="rid != null">
         #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="uavatar != null">
+        #{uavatar,jdbcType=VARCHAR},
       </if>
       <if test="pid != null">
         #{pid,jdbcType=INTEGER},
@@ -151,9 +183,6 @@
       <if test="unickname != null">
         #{unickname,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
       <if test="replyTime != null">
         #{replyTime,jdbcType=TIMESTAMP},
       </if>
@@ -162,6 +191,9 @@
       </if>
       <if test="commentCount != null">
         #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -177,6 +209,9 @@
       <if test="record.rid != null">
         rid = #{record.rid,jdbcType=INTEGER},
       </if>
+      <if test="record.uavatar != null">
+        uavatar = #{record.uavatar,jdbcType=VARCHAR},
+      </if>
       <if test="record.pid != null">
         pid = #{record.pid,jdbcType=INTEGER},
       </if>
@@ -185,9 +220,6 @@
       </if>
       <if test="record.unickname != null">
         unickname = #{record.unickname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.replyTime != null">
         reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
@@ -198,7 +230,25 @@
       <if test="record.commentCount != null">
         comment_count = #{record.commentCount,jdbcType=INTEGER},
       </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update reply
+    set rid = #{record.rid,jdbcType=INTEGER},
+      uavatar = #{record.uavatar,jdbcType=VARCHAR},
+      pid = #{record.pid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      unickname = #{record.unickname,jdbcType=VARCHAR},
+      reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
+      agree_count = #{record.agreeCount,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -206,10 +256,10 @@
   <update id="updateByExample" parameterType="map">
     update reply
     set rid = #{record.rid,jdbcType=INTEGER},
+      uavatar = #{record.uavatar,jdbcType=VARCHAR},
       pid = #{record.pid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
       unickname = #{record.unickname,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
       reply_time = #{record.replyTime,jdbcType=TIMESTAMP},
       agree_count = #{record.agreeCount,jdbcType=INTEGER},
       comment_count = #{record.commentCount,jdbcType=INTEGER}
@@ -220,6 +270,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.gdut.bbs.domain.Reply">
     update reply
     <set>
+      <if test="uavatar != null">
+        uavatar = #{uavatar,jdbcType=VARCHAR},
+      </if>
       <if test="pid != null">
         pid = #{pid,jdbcType=INTEGER},
       </if>
@@ -228,9 +281,6 @@
       </if>
       <if test="unickname != null">
         unickname = #{unickname,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="replyTime != null">
         reply_time = #{replyTime,jdbcType=TIMESTAMP},
@@ -241,18 +291,34 @@
       <if test="commentCount != null">
         comment_count = #{commentCount,jdbcType=INTEGER},
       </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gdut.bbs.domain.Reply">
+    update reply
+    set uavatar = #{uavatar,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      unickname = #{unickname,jdbcType=VARCHAR},
+      reply_time = #{replyTime,jdbcType=TIMESTAMP},
+      agree_count = #{agreeCount,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
     where rid = #{rid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.gdut.bbs.domain.Reply">
     update reply
-    set pid = #{pid,jdbcType=INTEGER},
+    set uavatar = #{uavatar,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
       unickname = #{unickname,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
       reply_time = #{replyTime,jdbcType=TIMESTAMP},
       agree_count = #{agreeCount,jdbcType=INTEGER},
       comment_count = #{commentCount,jdbcType=INTEGER}
     where rid = #{rid,jdbcType=INTEGER}
   </update>
+
 </mapper>

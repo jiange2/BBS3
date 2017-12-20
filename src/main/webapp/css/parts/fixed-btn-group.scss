@@ -1,42 +1,32 @@
 .fixed-btn-group{
   z-index: 1049;
   position: fixed;
-  bottom: -50px;
+  bottom: -40px;
   right: 20px;
   ul{
+    margin-bottom: 0;
+    li{
+      position: relative;
+      margin-bottom: 7px;
 
+      &:last-child{
+        margin-bottom: 0;
+      }
+      a{
+        padding: 0;
+        text-align: center;
+        color: #a6a6a6;
+        width: 50px;
+        height: 40px;
+        font-size: 20px;
+        background-color: #d9d9d9;
+        border-radius: 0;
+        span{
+          line-height: 36px;
+        }
+      }
+    }
   }
-  li{
-    position: relative;
-    margin-bottom: 10px;
-    &:last-child{
-      margin-bottom: 0;
-    }
-    a{
-      text-align: center;
-      color: #a6a6a6;
-      //padding:  7px 8px 1px 9px;
-      width: 50px;
-      height: 40px;
-      font-size: 20px;
-
-
-      background-color: #d9d9d9;
-      border-radius: 3px;
-    }
-    .back-to-top-btn{
-      padding-left: 10px;
-    }
-    .tooltip{
-      position: absolute;
-      /*top: 60px !important;
-      left: -74px !important;*/
-    }
-    .tooltip-arrow{
-    }
-
-  }
-
 }
 .modal-open{
   .fixed-btn-group{

@@ -1,0 +1,16 @@
+.modal-body{
+  position: relative;
+
+  .uploading-img{
+    position: absolute;
+    bottom: 60px;
+    left: 30px;
+  }
+
+  .count-tip{
+    color: #838383;
+    position: absolute;
+    bottom: 8px;
+    left: 15px;
+  }
+}

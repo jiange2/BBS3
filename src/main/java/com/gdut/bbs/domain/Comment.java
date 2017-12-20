@@ -7,11 +7,9 @@ public class Comment {
 
     private Integer rid;
 
-    private Integer pid;
+    private Integer uid;
 
-    private Integer commentUid;
-
-    private String commentUnickname;
+    private Integer unickname;
 
     private String content;
 
@@ -33,28 +31,20 @@ public class Comment {
         this.rid = rid;
     }
 
-    public Integer getPid() {
-        return pid;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setPid(Integer pid) {
-        this.pid = pid;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
-    public Integer getCommentUid() {
-        return commentUid;
+    public Integer getUnickname() {
+        return unickname;
     }
 
-    public void setCommentUid(Integer commentUid) {
-        this.commentUid = commentUid;
-    }
-
-    public String getCommentUnickname() {
-        return commentUnickname;
-    }
-
-    public void setCommentUnickname(String commentUnickname) {
-        this.commentUnickname = commentUnickname == null ? null : commentUnickname.trim();
+    public void setUnickname(Integer unickname) {
+        this.unickname = unickname;
     }
 
     public String getContent() {

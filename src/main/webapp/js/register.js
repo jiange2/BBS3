@@ -231,7 +231,7 @@ $(function () {
     }
 
     function beforeSend(sendingMessage,obj) {
-        var loadingImg = '<img src="img/loading2.gif"/>';
+        var loadingImg = '<img src="img/loading2.gif" width="20px" height="20px"/>';
         obj.attr('disabled',true);
         obj.html(sendingMessage+' '+loadingImg);
     }

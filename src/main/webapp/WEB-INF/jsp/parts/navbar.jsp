@@ -17,13 +17,13 @@
                 <span id="global-search-btn" onclick="$('#search-form').submit();">
                     <i class="glyphicon glyphicon-search"></i>
                 </span>
-                <div class="dropdown" hidden>
+                <div class="search-box-dropdown" hidden>
                     <div class="panel panel-default">
                         <div class="panel-body">
                             请输入关键字进行搜索
                         </div>
                         <div class="panel-footer">
-                            <a class="btn btn-success add-post-btn">发起问题</a>
+                            <a class="btn btn-success add-post-btn show-post-modal-btn">发起问题</a>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
         <div class="nav-user">
             <ul class="list-inline">
                 <c:choose>
-                    <c:when test="${user == null}">
+                    <c:when test="${sessionScope.user == null}">
                         <li>
                             <a class="btn-login btn btn-primary  token-btn">登录</a>
                         </li>
@@ -64,7 +64,7 @@
                         <li class="dropdown">
                             <a href="#" class="avatar-wrap dropdown-toggle" data-toggle="dropdown"
                                role="button" aria-haspopup="true" aria-expanded="false">
-                                <img src="${user.avatar}" class="avatar"/>
+                                <img src="${sessionScope.user.avatar}" class="avatar"/>
                             </a>
                             <div class="dropdown-menu">
                             </div>

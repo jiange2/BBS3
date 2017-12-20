@@ -63,7 +63,6 @@ $(function () {
     $('.login-btn').on('click',function () {
         var $form = $('#login-form');
         $form.bootstrapValidator('validate');
-        console.log($form.data("bootstrapValidator").isValid());
         if($form.data("bootstrapValidator").isValid()){
             var $this = $(this);
             var $username = $('input[name=username]').val();

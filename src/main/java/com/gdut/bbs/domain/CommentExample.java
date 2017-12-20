@@ -225,193 +225,123 @@ public class CommentExample {
             return (Criteria) this;
         }
 
-        public Criteria andPidIsNull() {
-            addCriterion("pid is null");
+        public Criteria andUidIsNull() {
+            addCriterion("uid is null");
             return (Criteria) this;
         }
 
-        public Criteria andPidIsNotNull() {
-            addCriterion("pid is not null");
+        public Criteria andUidIsNotNull() {
+            addCriterion("uid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPidEqualTo(Integer value) {
-            addCriterion("pid =", value, "pid");
+        public Criteria andUidEqualTo(Integer value) {
+            addCriterion("uid =", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotEqualTo(Integer value) {
-            addCriterion("pid <>", value, "pid");
+        public Criteria andUidNotEqualTo(Integer value) {
+            addCriterion("uid <>", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThan(Integer value) {
-            addCriterion("pid >", value, "pid");
+        public Criteria andUidGreaterThan(Integer value) {
+            addCriterion("uid >", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pid >=", value, "pid");
+        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("uid >=", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThan(Integer value) {
-            addCriterion("pid <", value, "pid");
+        public Criteria andUidLessThan(Integer value) {
+            addCriterion("uid <", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidLessThanOrEqualTo(Integer value) {
-            addCriterion("pid <=", value, "pid");
+        public Criteria andUidLessThanOrEqualTo(Integer value) {
+            addCriterion("uid <=", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidIn(List<Integer> values) {
-            addCriterion("pid in", values, "pid");
+        public Criteria andUidIn(List<Integer> values) {
+            addCriterion("uid in", values, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotIn(List<Integer> values) {
-            addCriterion("pid not in", values, "pid");
+        public Criteria andUidNotIn(List<Integer> values) {
+            addCriterion("uid not in", values, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidBetween(Integer value1, Integer value2) {
-            addCriterion("pid between", value1, value2, "pid");
+        public Criteria andUidBetween(Integer value1, Integer value2) {
+            addCriterion("uid between", value1, value2, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andPidNotBetween(Integer value1, Integer value2) {
-            addCriterion("pid not between", value1, value2, "pid");
+        public Criteria andUidNotBetween(Integer value1, Integer value2) {
+            addCriterion("uid not between", value1, value2, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidIsNull() {
-            addCriterion("comment_uid is null");
+        public Criteria andUnicknameIsNull() {
+            addCriterion("unickname is null");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidIsNotNull() {
-            addCriterion("comment_uid is not null");
+        public Criteria andUnicknameIsNotNull() {
+            addCriterion("unickname is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidEqualTo(Integer value) {
-            addCriterion("comment_uid =", value, "commentUid");
+        public Criteria andUnicknameEqualTo(Integer value) {
+            addCriterion("unickname =", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidNotEqualTo(Integer value) {
-            addCriterion("comment_uid <>", value, "commentUid");
+        public Criteria andUnicknameNotEqualTo(Integer value) {
+            addCriterion("unickname <>", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidGreaterThan(Integer value) {
-            addCriterion("comment_uid >", value, "commentUid");
+        public Criteria andUnicknameGreaterThan(Integer value) {
+            addCriterion("unickname >", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("comment_uid >=", value, "commentUid");
+        public Criteria andUnicknameGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unickname >=", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidLessThan(Integer value) {
-            addCriterion("comment_uid <", value, "commentUid");
+        public Criteria andUnicknameLessThan(Integer value) {
+            addCriterion("unickname <", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidLessThanOrEqualTo(Integer value) {
-            addCriterion("comment_uid <=", value, "commentUid");
+        public Criteria andUnicknameLessThanOrEqualTo(Integer value) {
+            addCriterion("unickname <=", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidIn(List<Integer> values) {
-            addCriterion("comment_uid in", values, "commentUid");
+        public Criteria andUnicknameIn(List<Integer> values) {
+            addCriterion("unickname in", values, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidNotIn(List<Integer> values) {
-            addCriterion("comment_uid not in", values, "commentUid");
+        public Criteria andUnicknameNotIn(List<Integer> values) {
+            addCriterion("unickname not in", values, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidBetween(Integer value1, Integer value2) {
-            addCriterion("comment_uid between", value1, value2, "commentUid");
+        public Criteria andUnicknameBetween(Integer value1, Integer value2) {
+            addCriterion("unickname between", value1, value2, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andCommentUidNotBetween(Integer value1, Integer value2) {
-            addCriterion("comment_uid not between", value1, value2, "commentUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameIsNull() {
-            addCriterion("comment_unickname is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameIsNotNull() {
-            addCriterion("comment_unickname is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameEqualTo(String value) {
-            addCriterion("comment_unickname =", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameNotEqualTo(String value) {
-            addCriterion("comment_unickname <>", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameGreaterThan(String value) {
-            addCriterion("comment_unickname >", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameGreaterThanOrEqualTo(String value) {
-            addCriterion("comment_unickname >=", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameLessThan(String value) {
-            addCriterion("comment_unickname <", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameLessThanOrEqualTo(String value) {
-            addCriterion("comment_unickname <=", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameLike(String value) {
-            addCriterion("comment_unickname like", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameNotLike(String value) {
-            addCriterion("comment_unickname not like", value, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameIn(List<String> values) {
-            addCriterion("comment_unickname in", values, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameNotIn(List<String> values) {
-            addCriterion("comment_unickname not in", values, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameBetween(String value1, String value2) {
-            addCriterion("comment_unickname between", value1, value2, "commentUnickname");
-            return (Criteria) this;
-        }
-
-        public Criteria andCommentUnicknameNotBetween(String value1, String value2) {
-            addCriterion("comment_unickname not between", value1, value2, "commentUnickname");
+        public Criteria andUnicknameNotBetween(Integer value1, Integer value2) {
+            addCriterion("unickname not between", value1, value2, "unickname");
             return (Criteria) this;
         }
 

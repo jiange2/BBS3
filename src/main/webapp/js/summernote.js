@@ -7245,7 +7245,6 @@
       var bilibiliRegExp = /(?:https:\/\/)?www.bilibili.com\/video\/av*(\d+)\/.*/;
       var bilibiliMatch = url.match(bilibiliRegExp);
 
-
       var width = $(window).width();
       var height;
       if(width > 768){
@@ -7302,11 +7301,9 @@
             .attr('src', url)
             .attr('width', '640').attr('height', '360');
       } else if (bilibiliMatch && bilibiliMatch[1].length) {
-          $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
-              .attr('frameborder', 0)
-              .attr('height', height)
-              .attr('width', '90%')
-              .attr('src', 'http://static.hdslb.com/play.swf?aid=' + bilibiliMatch[1]);
+          $video = $('<a>')
+              .attr('href', 'http://static.hdslb.com/play.swf?aid=' + bilibiliMatch[1])
+              .html('http://static.hdslb.com/play.swf?aid=' + bilibiliMatch[1]);
       }else {
         // this is not a known video link. Now what, Cat? Now what?
         return false;
