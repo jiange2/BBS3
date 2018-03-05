@@ -12,10 +12,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PostServiceImpl implements PostService{
+
+    private static String DEFAULT_ORDER_CLAUSE = "last_reply_time";
+    private static Set<String> ALL_POST_CLAUSE;
+
+    static {
+        ALL_POST_CLAUSE = new HashSet<>();
+        ALL_POST_CLAUSE.add(DEFAULT_ORDER_CLAUSE);
+        ALL_POST_CLAUSE.add("reply_count");
+        ALL_POST_CLAUSE.add("star_count");
+        ALL_POST_CLAUSE.add("post_time");
+    }
 
     @Autowired
     public PostMapper postMapper;
@@ -33,9 +46,12 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> selectPostList(Integer page) {
+    public List<Post> selectPostList(Integer page,String orderClause) {
         PostExample example = new PostExample();
-        example.setOrderByClause("last_reply_time desc");
+        if(orderClause == null || !ALL_POST_CLAUSE.contains(orderClause)){
+            orderClause = DEFAULT_ORDER_CLAUSE;
+        }
+        example.setOrderByClause(orderClause + " desc");
         PageHelper.startPage(page,30);
         return postMapper.selectByExample(example);
     }

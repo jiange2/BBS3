@@ -18,10 +18,6 @@ public class TokenInterceptor extends HandlerInterceptorAdapter{
             Method method = handlerMethod.getMethod();
             Token annotation = method.getAnnotation(Token.class);
             if (annotation != null) {
-                boolean needSaveSession = annotation.save();
-                if (needSaveSession) {
-                    request.getSession(true).setAttribute("token", UUID.randomUUID().toString());
-                }
                 boolean needRemoveSession = annotation.remove();
                 if (needRemoveSession) {
                     if (isRepeatSubmit(request)) {
@@ -29,6 +25,10 @@ public class TokenInterceptor extends HandlerInterceptorAdapter{
                         return false;
                     }
                     request.getSession(true).removeAttribute("token");
+                }
+                boolean needSaveSession = annotation.save();
+                if (needSaveSession) {
+                    request.getSession(true).setAttribute("token", UUID.randomUUID().toString());
                 }
             }
             return true;
@@ -51,4 +51,5 @@ public class TokenInterceptor extends HandlerInterceptorAdapter{
         }
         return false;
     }
+
 }

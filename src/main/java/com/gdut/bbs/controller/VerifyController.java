@@ -27,22 +27,15 @@ public class VerifyController {
         return request.getRemoteAddr();
     }
 
-    @RequestMapping("/verCode")
+    @RequestMapping("/captcha")
     public void getVerificationCode(HttpSession session,HttpServletResponse response) throws IOException {
-        String verCode = VerifyUtil.getVerificationString(4);
-        BufferedImage img = VerifyUtil.getVerificationImage(verCode);
-        session.setAttribute("verCode",verCode);
+        String captcha = VerifyUtil.getVerificationString(4);
+        BufferedImage img = VerifyUtil.getVerificationImage(captcha);
+        session.setAttribute("captcha",captcha);
         OutputStream os = response.getOutputStream();
         ImageIO.write(img,"jpg",os);
         os.flush();
         os.close();
-    }
-
-    @RequestMapping("/checkVerCode")
-    @ResponseBody
-    public String checkVerCode(String verCode, HttpSession session){
-        return VerifyUtil.checkVerCode(verCode,session)?
-                "{\"valid\":\"true\"}":"{\"valid\":\"false\"}";
     }
 
     @Token(save = true)

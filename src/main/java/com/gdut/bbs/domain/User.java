@@ -1,5 +1,6 @@
 package com.gdut.bbs.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,14 +29,20 @@ public class User {
     @Pattern(regexp = "[A-Za-z0-9.]+",
             groups = {Register.class,Login.class},
             message = "{user.password.regexp}")
+    @JsonIgnore
     private String password;
     @Null(groups = {Register.class})
     private String nickname;
+
     @Email(message = "{user.email}",
             groups = {Register.class,GetRegisterCode.class})
     @NotNull(message = "{user.email.notNull}",
             groups = {Register.class,GetRegisterCode.class})
+    @Length(min = 1,
+            groups = {Register.class,GetRegisterCode.class},
+            message = "{user.username.notNull}")
     private String email;
+
     @Null(groups = {Register.class})
     private Integer follow;
     @Null(groups = {Register.class})

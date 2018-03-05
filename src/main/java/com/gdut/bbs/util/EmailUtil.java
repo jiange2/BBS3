@@ -46,6 +46,6 @@ public class EmailUtil {
     }
 
     public static Long getLastSendTime(String recipient){
-        return emailLastSendTime.get(recipient);
+        return recipient != null ? emailLastSendTime.get(recipient) : null;
     }
 }

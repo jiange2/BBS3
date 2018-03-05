@@ -8,7 +8,7 @@ import java.util.List;
 public interface PostService {
     int insertPost(Post post, User user);
 
-    List<Post> selectPostList(Integer page);
+    List<Post> selectPostList(Integer page,String orderClause);
 
     Post selectPostById(Integer id);
 

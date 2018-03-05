@@ -42,14 +42,14 @@ public class PostController {
         return map;
     }
 
-    @RequestMapping("/list/{page}")
+    @RequestMapping("/list/{order}/{page}")
     @ResponseBody
-    public Map<String,Object> list(@PathVariable Integer page, HttpServletRequest request){
+    public Map<String,Object> list(@PathVariable String order,@PathVariable Integer page)  {
         if (page == null){
             page = 1;
         }
         HashMap<String,Object> map = new HashMap<>();
-        List<Post> list =  postService.selectPostList(page);
+        List<Post> list =  postService.selectPostList(page,order);
         PageInfo<Post> pageInfo = new PageInfo<>(list);
         map.put("pageInfo",pageInfo);
 

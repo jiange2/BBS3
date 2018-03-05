@@ -1,19 +1,23 @@
 package com.gdut.bbs.controller;
 
 import com.gdut.bbs.annotation.Token;
+import com.gdut.bbs.domain.JsonResult;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.service.UserService;
 import com.gdut.bbs.util.EmailUtil;
 import com.gdut.bbs.util.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.*;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -26,73 +30,62 @@ public class UserController {
     @Autowired
     LocalValidatorFactoryBean validator;
 
-    @Token(remove = true)
-    @RequestMapping("/register")
+    @RequestMapping("/currentUser")
     @ResponseBody
-    public Map<String, Object> register(User user
-            , String registerCode, HttpSession session) throws UnsupportedEncodingException {
-        BindingResult errors = new BeanPropertyBindingResult(user, "user");
-        validator.validate(user, errors, User.Register.class);
-        Map<String, Object> map = new HashMap<>();
-        if(!errors.hasErrors()){
-            String registerCodeSession = (String) session.getAttribute("registerCode");
-            if(registerCodeSession != null &&
-                    registerCodeSession.equals(registerCode)){
-                String email = (String) session.getAttribute("email");
-                user.setEmail(email);
-                session.removeAttribute("registerCode");
-                userService.registerUser(user);
-                session.setAttribute("user", user);
-                map.put("valid", true);
-            }else{
-                map.put("errors", new String[]{"registerCode"});
-            }
-        }else{
-            map.put("valid", false);
-            map.put("errors", getAllErrorFieldName(errors));
-        }
-        return map;
-    }
-
-    private String[] getAllErrorFieldName(Errors errors){
-        int len = errors.getErrorCount();
-        String[] result = new String[len];
-        List<FieldError> fieldErrors = errors.getFieldErrors();
-        for(int i=0 ; i<fieldErrors.size(); ++i){
-            result[i] = fieldErrors.get(i).getField();
-        }
+    public JsonResult getCurrentUser(HttpSession session) {
+        JsonResult result = new JsonResult();
+        User user = (User) session.getAttribute("user");
+        result.addInfo("user", user);
+        result.setStatus(user != null);
         return result;
     }
 
-    @Token(remove = true)
+    @RequestMapping("/logout")
+    @ResponseBody
+    public JsonResult logout(HttpSession session) {
+        session.removeAttribute("user");
+        return new JsonResult(true);
+    }
+
+    @RequestMapping("/register")
+    @ResponseBody
+    public JsonResult register(@Validated(value = {User.Login.class}) User user,
+            BindingResult errors, String registerCode, HttpSession session) {
+        JsonResult result = new JsonResult();
+        if (checkForm(errors,result) &&
+                !checkUsernameExist(user,result) &&
+                checkReigsterCode(registerCode,session, result)) {
+            String email = (String) session.getAttribute("email");
+            user.setEmail(email);
+            if(userService.registerUser(user)){
+                User loginUser = userService.selectUser(user);
+                session.setAttribute("user", loginUser);
+                result.addInfo("user",user);
+            }
+        }
+        result.setStatus();
+        return result;
+    }
+
     @RequestMapping("/login")
     @ResponseBody
-    public Map<String, Object> login(User user, HttpSession session, String verCode) {
-        BindingResult errors = new BeanPropertyBindingResult(user, "user");
-        validator.validate(user, errors, User.Login.class);
-        Map<String, Object> map = new HashMap<>();
-        if (errors.hasErrors()) {
-            map.put("status", "failure");
-            map.put("errors", getAllErrorFieldName(errors));
-        } else {
-            if (VerifyUtil.checkVerCode(verCode, session)) {
-                session.removeAttribute("verCode");
-                User loginUser = userService.selectUser(user);
-                if (loginUser != null) {
-                    session.setAttribute("user", loginUser);
-                    map.put("status", "success");
-                } else {
-                    map.put("status", "failure");
-                    map.put("errors", "用户名或者密码错误");
-                }
+    public JsonResult login(@Validated(value = {User.Login.class}) User user,
+                            BindingResult errors, HttpSession session, String captcha) {
+        JsonResult result = new JsonResult();
+        if (checkForm(errors, result) && checkCaptcha(captcha, session, result)) {
+            User loginUser = userService.selectUser(user);
+            if (loginUser != null) {
+                session.setAttribute("user", loginUser);
+                result.addInfo("user", loginUser);
             } else {
-                map.put("status", "failure");
-                map.put("errors", "验证码错误");
+                result.addError("password", "用户名或密码错误");
             }
         }
 
-        return map;
+        result.setStatus();
+        return result;
     }
+
 
     @RequestMapping("/checkUsername")
     @ResponseBody
@@ -113,34 +106,75 @@ public class UserController {
 
     @RequestMapping("/getEmailRegCode")
     @ResponseBody
-    public Map getEmailRegCode(User user, HttpSession session, String verCode) {
-        Map<String, Object> result = new HashMap<>();
+    public JsonResult getEmailRegCode(@Validated(value = {User.GetRegisterCode.class}) User user,
+                                      BindingResult errors, HttpSession session, String captcha) {
+        JsonResult result = new JsonResult();
         Long lastSendTime = EmailUtil.getLastSendTime(user.getEmail());
         Long nowTime = System.currentTimeMillis();
-        if ((lastSendTime == null || nowTime - lastSendTime > INTERVAL)) { //上次发送时间低于@INTERVAL
-            BindingResult errors = new BeanPropertyBindingResult(user, "user");
-            validator.validate(user, errors, User.GetRegisterCode.class);
-            if (!errors.hasErrors() && //邮件格式检查
-                    VerifyUtil.checkVerCode(verCode, session) && //检查验证码是否正确
-                    userService.selectEmailExist(user)) { //邮件是否已存在数据库
-                String registerCode = VerifyUtil.getVerificationString(8);
-                EmailUtil.sendRegisterCode(user.getEmail(), registerCode);
-                session.setAttribute("registerCode", registerCode);
-                session.setAttribute("email", user.getEmail());
-                session.removeAttribute("verCode");
-                result.put("valid", true);
-                result.put("interval", INTERVAL);
-                result.put("lastSendTime", EmailUtil.getLastSendTime(user.getEmail()));
-            } else {
-                result.put("valid", false);
-            }
-        } else {
-            result.put("valid", false);
-            result.put("interval", INTERVAL);
-            result.put("lastSendTime", lastSendTime);
+        if ((lastSendTime == null || nowTime - lastSendTime > INTERVAL) && //上次发送时间低于@INTERVAL
+                checkForm(errors, result) && //邮件格式检查
+                checkCaptcha(captcha, session, result) && //检查验证码是否正确
+                !checkEmailExist(user, result)) { //邮件是否已存在数据库
+            String registerCode = VerifyUtil.getVerificationString(8);
+            EmailUtil.sendRegisterCode(user.getEmail(), registerCode);
+            lastSendTime = System.currentTimeMillis();
+            session.setAttribute("registerCode", registerCode);
+            session.setAttribute("email", user.getEmail());
+            session.removeAttribute("captcha");
         }
+        result.addInfo("lastSendTime", lastSendTime);
+        result.setStatus();
         return result;
     }
 
+    private boolean checkForm(BindingResult errors, JsonResult jsonResult) {
+        if (errors.hasErrors()) {
+            jsonResult.addErrors(errors);
+            return false;
+        }
 
+        return true;
+    }
+
+    private boolean checkCaptcha(String captcha, HttpSession session, JsonResult jsonResult) {
+        String sessionCaptcha = (String) session.getAttribute("captcha");
+        if (captcha != null && sessionCaptcha != null
+                && captcha.toUpperCase().equals(sessionCaptcha.toUpperCase())) {
+            session.removeAttribute("captcha");
+            jsonResult.addInfo("resetCaptcha", true);
+            return true;
+        } else {
+            jsonResult.addError("captcha", "验证码错误");
+            return false;
+        }
+    }
+
+    private boolean checkReigsterCode(String registerCode, HttpSession session, JsonResult jsonResult) {
+        String sessionCode = (String) session.getAttribute("registerCode");
+        if (registerCode != null && sessionCode != null
+                && registerCode.toUpperCase().equals(sessionCode.toUpperCase())) {
+            session.removeAttribute("registerCode");
+            jsonResult.addInfo("resetCaptcha", true);
+            return true;
+        } else {
+            jsonResult.addError("registerCode", "注册码错误");
+            return false;
+        }
+    }
+
+    private boolean checkEmailExist(User user,JsonResult result){
+        boolean exist = userService.selectEmailExist(user);
+        if(exist){
+            result.addError("email","邮箱已被使用");
+        }
+        return exist;
+    }
+
+    private boolean checkUsernameExist(User user,JsonResult result){
+        boolean exist = userService.selectUsernameExist(user);
+        if(exist){
+            result.addError("username","用户名已存在");
+        }
+        return exist;
+    }
 }

@@ -17,13 +17,13 @@ public class UserServiceImpl implements UserService{
     private UserMapper userMapper;
 
     @Override
-    public void registerUser(User user) {
-        user.setAvatar("/img/ava.png");
+    public boolean registerUser(User user) {
+        user.setAvatar("/static/avatar-default.png");
         user.setFollow(0);
         user.setNickname(user.getUsername());
         user.setPoint(0);
         user.setRegDate(new Date());
-        userMapper.insert(user);
+        return userMapper.insert(user) > 0;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andEmailEqualTo(user.getEmail());
         List<User> users = userMapper.selectByExample(userExample);
-        return users.size() <= 0;
+        return users.size() > 0;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(user.getUsername());
         List<User> users = userMapper.selectByExample(userExample);
-        return users.size() <= 0;
+        return users.size() > 0;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService{
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUsernameEqualTo(user.getUsername());
         criteria.andPasswordEqualTo(user.getPassword());
-        System.out.println(user.getUsername()+":"+user.getPassword());
 
         List<User> users =  userMapper.selectByExample(userExample);
         if(users.size() > 0){

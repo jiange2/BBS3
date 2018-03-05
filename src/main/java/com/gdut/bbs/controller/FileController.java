@@ -22,7 +22,8 @@ public class FileController {
         Map<String,Object> map = new HashMap<>();
         String[] path = new String[files.length];
         for(int i=0; i<files.length; ++i){
-            path[i] = FileUtil.saveImg(files[i],request.getSession().getServletContext().getRealPath("/"));
+            path[i] = FileUtil.saveImg(files[i],
+                    request.getSession().getServletContext().getRealPath("/"));
         }
         map.put("result","success");
         map.put("url",path);

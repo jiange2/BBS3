@@ -7,6 +7,8 @@
           <element id="module-output" name="BBS3" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:cors-filter:2.6" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:java-property-utils:1.9.1" />
           <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" />
           <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
