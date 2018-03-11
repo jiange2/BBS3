@@ -1,6 +1,7 @@
 package com.gdut.bbs.controller;
 
 import com.gdut.bbs.annotation.Token;
+import com.gdut.bbs.domain.JsonResult;
 import com.gdut.bbs.domain.Post;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.service.PostService;
@@ -24,22 +25,19 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @Token(remove = true)
     @RequestMapping("/add")
     @ResponseBody
-    public Map<String,Object> add(@Valid Post post, BindingResult errors,HttpSession session) {
-        System.out.println(post.getTitle()+":"+post.getContent());
-
-        Map<String,Object> map = new HashMap<>();
+    public JsonResult add(@Valid Post post, BindingResult errors, HttpSession session) {
+        JsonResult result = new JsonResult();
         User user = (User) session.getAttribute("user");
         if(user != null && !errors.hasErrors()){
-            if(postService.insertPost(post,user) > 0){
-                map.put("status","success");
+            if(!(postService.insertPost(post,user) > 0)){
+                result.addError("content","帖子发表失败");
             }
         }else{
-            map.put("errors",user == null?"用户未登录":"标题或帖子内容出错");
+            result.addError("content",user == null?"用户未登录":"标题或帖子内容出错");
         }
-        return map;
+        return result;
     }
 
     @RequestMapping("/list/{order}/{page}")
@@ -56,20 +54,18 @@ public class PostController {
         return map;
     }
 
-    @RequestMapping("{pid}")
+    @RequestMapping("/getPost")
     @ResponseBody
-    public ModelAndView getPost(@PathVariable Integer pid,HttpSession session){
+    public Post getPost(Integer pid,HttpSession session){
         Set<Integer> readSet = (Set<Integer>) session.getAttribute("readSet");
         if(readSet == null){
             session.setAttribute("readSet",(readSet = new HashSet<>()));
         }
-        ModelAndView mv = new ModelAndView("post");
         Post post = postService.selectPostById(pid);
-        mv.addObject("post",post);
         if(!readSet.contains(pid)){
             postService.addWatchCount(post);
             readSet.add(pid);
         }
-        return mv;
+        return post;
     }
 }

@@ -135,6 +135,9 @@
       #{uid,jdbcType=INTEGER}, #{unickname,jdbcType=VARCHAR}, #{replyTime,jdbcType=TIMESTAMP}, 
       #{agreeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}
       )
+    <selectKey resultType="Integer" order="AFTER" keyProperty="rid">
+      SELECT LAST_INSERT_ID() AS rid
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.Reply">
     insert into reply

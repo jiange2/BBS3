@@ -9,4 +9,6 @@ public interface ReplyService {
     int insertReply(Reply reply, User user, Integer pid);
 
     List<Reply> selectList(Integer pid, Integer page);
+
+
 }

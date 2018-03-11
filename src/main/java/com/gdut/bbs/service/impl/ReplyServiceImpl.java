@@ -46,10 +46,12 @@ public class ReplyServiceImpl implements ReplyService{
 
     @Override
     public List<Reply> selectList(Integer pid, Integer page) {
-        PageHelper.startPage(page,30);
+        PageHelper.startPage(page,10);
         ReplyExample replyExample = new ReplyExample();
         ReplyExample.Criteria criteria = replyExample.createCriteria();
         criteria.andPidEqualTo(pid);
-        return replyMapper.selectByExampleWithBLOBs(replyExample);
+        replyExample.setOrderByClause("reply_time desc");
+        List<Reply> replies = replyMapper.selectByExampleWithBLOBs(replyExample);
+        return replies;
     }
 }

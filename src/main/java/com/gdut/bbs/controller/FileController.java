@@ -1,6 +1,7 @@
 package com.gdut.bbs.controller;
 
 
+import com.gdut.bbs.domain.JsonResult;
 import com.gdut.bbs.util.FileUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +19,16 @@ public class FileController {
 
     @RequestMapping("/img")
     @ResponseBody
-    public Map<String,Object> uploadImage(@RequestParam("file") CommonsMultipartFile[] files, HttpServletRequest request) {
-        Map<String,Object> map = new HashMap<>();
+    public JsonResult uploadImage(@RequestParam("file") CommonsMultipartFile[] files, HttpServletRequest request) throws InterruptedException {
+        JsonResult result = new JsonResult();
         String[] path = new String[files.length];
         for(int i=0; i<files.length; ++i){
             path[i] = FileUtil.saveImg(files[i],
                     request.getSession().getServletContext().getRealPath("/"));
         }
-        map.put("result","success");
-        map.put("url",path);
-        return map;
+        Thread.sleep(600);
+        result.addInfo("url",path[0]);
+        return result;
     }
 
 

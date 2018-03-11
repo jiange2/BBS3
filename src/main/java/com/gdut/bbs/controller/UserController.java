@@ -1,24 +1,23 @@
 package com.gdut.bbs.controller;
 
-import com.gdut.bbs.annotation.Token;
 import com.gdut.bbs.domain.JsonResult;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.service.UserService;
 import com.gdut.bbs.util.EmailUtil;
 import com.gdut.bbs.util.VerifyUtil;
+import org.apache.commons.lang3.text.WordUtils;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/user")
@@ -28,7 +27,25 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    LocalValidatorFactoryBean validator;
+    private LocalValidatorFactoryBean validator;
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public JsonResult update(String field, String value,HttpSession session){
+        JsonResult result = new JsonResult();
+        User user = new User();
+        setField(field,value,user);
+        if(checkLogin(session,result) && checkUser(user,field,result) && checkLogin(session,result)){
+            User loginUser = (User) session.getAttribute("user");
+            user.setUserid(loginUser.getUserid());
+            if(userService.updateUser(user) == 0){
+                result.addError("noFiled","更新失败");
+            }else {
+                setField(field,value,loginUser);
+            }
+        }
+        return result;
+    }
 
     @RequestMapping("/currentUser")
     @ResponseBody
@@ -58,9 +75,8 @@ public class UserController {
             String email = (String) session.getAttribute("email");
             user.setEmail(email);
             if(userService.registerUser(user)){
-                User loginUser = userService.selectUser(user);
-                session.setAttribute("user", loginUser);
                 result.addInfo("user",user);
+                session.setAttribute("user",user);
             }
         }
         result.setStatus();
@@ -87,22 +103,24 @@ public class UserController {
     }
 
 
-    @RequestMapping("/checkUsername")
+    @RequestMapping("/find")
     @ResponseBody
-    public String checkUsername(User user, HttpSession session) {
-        return userService.selectUsernameExist(user) ?
-                "{\"valid\":\"true\"}" : "{\"valid\":\"false\"}";
-    }
-
-
-    @RequestMapping("/checkEmail")
-    @ResponseBody
-    public String checkEmail(User user) {
-        return userService.selectEmailExist(user) ?
-                "{\"valid\":\"true\"}" : "{\"valid\":\"false\"}";
+    public User getUserById(Integer id){
+        return userService.selectUserById(id);
     }
 
     private static int INTERVAL = EmailUtil.REGISTER_CODE_INTERVAL;
+    private Class<User> userClass = User.class;
+
+    private void setField(String filed,String value,User user){
+        try {
+            Method m = userClass.getMethod("set" + WordUtils.capitalize(filed),String.class);
+            m.invoke(user,value);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @RequestMapping("/getEmailRegCode")
     @ResponseBody
@@ -125,6 +143,25 @@ public class UserController {
         result.addInfo("lastSendTime", lastSendTime);
         result.setStatus();
         return result;
+    }
+
+    private boolean checkUser(User user,String field,JsonResult result){
+        Set set = validator.validateProperty(user,field,User.Update.class);
+        System.out.println(set);
+        if("nickname".equals(field)){
+            checkNicknameExist(user,result);
+        }
+        return true;
+    }
+
+
+    private boolean checkLogin(HttpSession session,JsonResult result){
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            result.addError("user","用户未登录");
+            return false;
+        }
+        return true;
     }
 
     private boolean checkForm(BindingResult errors, JsonResult jsonResult) {
@@ -172,6 +209,14 @@ public class UserController {
 
     private boolean checkUsernameExist(User user,JsonResult result){
         boolean exist = userService.selectUsernameExist(user);
+        if(exist){
+            result.addError("username","用户名已存在");
+        }
+        return exist;
+    }
+
+    private boolean checkNicknameExist(User user,JsonResult result){
+        boolean exist = userService.selectNickNameExist(user);
         if(exist){
             result.addError("username","用户名已存在");
         }

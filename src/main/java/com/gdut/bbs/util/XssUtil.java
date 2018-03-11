@@ -20,6 +20,7 @@ public class XssUtil {
                 .addAttributes("li","style")
                 .addAttributes("p","style")
                 .addAttributes("span","style")
+                .addAttributes("span","class")
                 .addAttributes("b","style")
                 .addAttributes("div","style")
                 .addAttributes("table","class")
@@ -80,7 +81,7 @@ public class XssUtil {
     }
 
     public static String cleanAll(String text){
-        return text.replaceAll("<","&lt;").replaceAll(">","&gt;");
+        return text;
     }
 
 }

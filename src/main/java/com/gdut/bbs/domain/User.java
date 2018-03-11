@@ -12,6 +12,7 @@ import java.util.Date;
 public class User {
     @Null(groups = {Register.class})
     private Integer userid;
+
     @NotNull(message = "{user.username.notNull}",
             groups = {Register.class,Login.class})
     @Length(min = 9,max = 20,
@@ -20,7 +21,9 @@ public class User {
     @Pattern(regexp = "[A-Za-z]+[A-Za-z\\d]+",
             groups = {Register.class,Login.class},
             message = "{user.username.regexp}")
+    @Null(groups = {Update.class})
     private String username;
+
     @NotNull(message = "{user.password.notNull}",
             groups = {Register.class,Login.class})
     @Length(min = 6,max = 50,
@@ -30,8 +33,12 @@ public class User {
             groups = {Register.class,Login.class},
             message = "{user.password.regexp}")
     @JsonIgnore
+    @Null(groups = {Update.class})
     private String password;
+
     @Null(groups = {Register.class})
+    @Length(min = 1,max = 20,groups = {Update.class},message = "{user.username.length}")
+    @NotNull(message = "{user.username.notNull}", groups = {Update.class})
     private String nickname;
 
     @Email(message = "{user.email}",
@@ -41,22 +48,32 @@ public class User {
     @Length(min = 1,
             groups = {Register.class,GetRegisterCode.class},
             message = "{user.username.notNull}")
+    @Null(groups = {Update.class})
     private String email;
 
-    @Null(groups = {Register.class})
+    @Null(groups = {Register.class,Update.class})
     private Integer follow;
-    @Null(groups = {Register.class})
+
+    @Null(groups = {Register.class,Update.class})
     private Date regDate;
-    @Null(groups = {Register.class})
+
+    @Null(groups = {Register.class,Update.class})
     private String gender;
-    @Null(groups = {Register.class})
+
+    @Null(groups = {Register.class,Update.class})
     private Date birthday;
+
     @Null(groups = {Register.class})
+    @Length(min = 1,max = 100,groups = {Update.class},message = "头像有问题啊,老哥")
     private String avatar;
+
     @Null(groups = {Register.class})
+    @Length(min = 1,max = 100,groups = {Update.class},message = "简介100字以内")
     private String statement;
-    @Null(groups = {Register.class})
+
+    @Null(groups = {Register.class,Update.class})
     private Integer point;
+
     public Integer getUserid() {
         return userid;
     }
@@ -132,4 +149,25 @@ public class User {
     public interface Register {}
     public interface Login{}
     public interface GetRegisterCode{}
+    public interface Update{}
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userid=" + userid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", email='" + email + '\'' +
+                ", follow=" + follow +
+                ", regDate=" + regDate +
+                ", gender='" + gender + '\'' +
+                ", birthday=" + birthday +
+                ", avatar='" + avatar + '\'' +
+                ", statement='" + statement + '\'' +
+                ", point=" + point +
+                '}';
+    }
+
+
 }

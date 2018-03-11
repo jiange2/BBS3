@@ -27,4 +27,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    int updateAllPostByPrimaryKey(User record);
+
+    int updateAllReplyByPrimaryKey(User record);
 }

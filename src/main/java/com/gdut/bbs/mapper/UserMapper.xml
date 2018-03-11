@@ -118,6 +118,9 @@
       #{regDate,jdbcType=TIMESTAMP}, #{gender,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
       #{avatar,jdbcType=VARCHAR}, #{statement,jdbcType=VARCHAR}, #{point,jdbcType=INTEGER}
       )
+    <selectKey resultType="Integer" order="AFTER" keyProperty="userid">
+      SELECT LAST_INSERT_ID() AS userid
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.User">
     insert into user
@@ -319,5 +322,29 @@
       statement = #{statement,jdbcType=VARCHAR},
       point = #{point,jdbcType=INTEGER}
     where userid = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateAllPostByPrimaryKey" parameterType="com.gdut.bbs.domain.User">
+  update post
+    <set>
+      <if test="avatar != null">
+        uavatar = #{avatar},
+      </if>
+      <if test="nickname != null">
+        unickname = #{nickname},
+      </if>
+    </set>
+  where uid = #{userid}
+  </update>
+  <update id="updateAllReplyByPrimaryKey" parameterType="com.gdut.bbs.domain.User">
+    update reply
+    <set>
+      <if test="avatar != null">
+        uavatar = #{avatar},
+      </if>
+      <if test="nickname != null">
+        unickname = #{nickname},
+      </if>
+    </set>
+    where uid = #{userid}
   </update>
 </mapper>

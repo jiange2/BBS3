@@ -45,6 +45,30 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean selectNickNameExist(User user) {
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUsernameEqualTo(user.getNickname());
+        List<User> users = userMapper.selectByExample(userExample);
+        return users.size() > 0;
+    }
+
+    @Override
+    public int updateUser(User user) {
+        System.out.println(user);
+        int r =  userMapper.updateByPrimaryKeySelective(user);
+        if(user.getNickname() != null || user.getAvatar() != null){
+            userMapper.updateAllPostByPrimaryKey(user);
+            userMapper.updateAllReplyByPrimaryKey(user);
+        }
+        return r;
+    }
+
+
+    private String[] updatableField = {"nickname","avatar",""};
+    private Class userClass = User.class;
+
+    @Override
     public User selectUser(User user) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -57,6 +81,11 @@ public class UserServiceImpl implements UserService{
         }else{
             return null;
         }
+    }
+
+    @Override
+    public User selectUserById(Integer id) {
+        return userMapper.selectByPrimaryKey(id);
     }
 
 }

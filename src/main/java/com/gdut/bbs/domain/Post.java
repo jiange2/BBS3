@@ -8,7 +8,7 @@ public class Post {
     private String unickname;
     private String uavatar;
     @NotNull
-    @Length(min = 5,max = 30)
+    @Length(min = 1,max = 30)
     private String title;
     @NotNull
     private String content;

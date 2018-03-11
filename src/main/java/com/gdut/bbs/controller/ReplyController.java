@@ -1,5 +1,6 @@
 package com.gdut.bbs.controller;
 import com.gdut.bbs.annotation.Token;
+import com.gdut.bbs.domain.JsonResult;
 import com.gdut.bbs.domain.Reply;
 import com.gdut.bbs.domain.User;
 import com.gdut.bbs.service.ReplyService;
@@ -26,22 +27,21 @@ public class ReplyController {
     private ReplyService replyService;
 
     @RequestMapping("/add")
-    @Token(remove = true)
     @ResponseBody
-    public Map<String,Object> add(Reply reply, HttpSession session,Integer pid){
-        Map<String,Object> map = new HashMap<>();
+    public JsonResult add(Reply reply, HttpSession session, Integer pid){
+        JsonResult result = new JsonResult();
         User user = (User) session.getAttribute("user");
         if(user != null && StringUtil.getRichTextLength(reply.getContent()) <= maxNumOfWords){
-            if(replyService.insertReply(reply,user,pid) > 0){
-                map.put("status","success");
-            }else {
-                map.put("errors","回复失败请重试");
+            if((replyService.insertReply(reply,user,pid) > 0)){
+                result.addInfo("rid",reply.getRid());
+            }else{
+                result.addError("content","回复失败请重试");
             }
         }else{
-            map.put("errors",user == null? "用户未登录！" : "文本字数过多！");
+            result.addError("content",user == null? "用户未登录！" : "文本字数过多！");
         }
 
-        return map;
+        return result;
     }
 
     @RequestMapping("/list")
@@ -55,4 +55,6 @@ public class ReplyController {
         map.put("pageInfo",new PageInfo<>(replies));
         return map;
     }
+
+
 }

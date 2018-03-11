@@ -7,7 +7,7 @@ import java.util.*;
 
 public class JsonResult {
 
-    private boolean status = true;
+    private Boolean status = null;
     private Map<String,String> errors = null;
     private Map<String,Object> info = null;
 
@@ -47,8 +47,8 @@ public class JsonResult {
         return info == null ? (info = new HashMap<>()) : info;
     }
 
-    public boolean getStatus() {
-        return status;
+    public Boolean getStatus() {
+        return status != null ? status : (this.errors == null || this.errors.size() == 0);
     }
 
     public void setStatus(boolean status) {

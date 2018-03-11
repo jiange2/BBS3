@@ -21,7 +21,7 @@ import java.util.*;
 @ContextConfiguration("classpath:config/spring/application-context-webmvc.xml")
 public class ValidateTest {
 
-    @Autowired
+    //@Autowired
     private LocalValidatorFactoryBean validator;
 
     @Test
@@ -69,5 +69,19 @@ public class ValidateTest {
             String str = enumeration.nextElement();
             System.out.println(str);
         }
+    }
+
+    private boolean checkUser(User user,String field){
+        Set set = validator.validateProperty(user,field,User.Update.class);
+        System.out.println(set);
+        return true;
+    }
+
+
+    @Test
+    public void test(){
+        User user = new User();
+        user.setNickname("");
+        checkUser(user,"nickname");
     }
 }
