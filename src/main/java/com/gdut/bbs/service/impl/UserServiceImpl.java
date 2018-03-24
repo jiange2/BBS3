@@ -64,10 +64,6 @@ public class UserServiceImpl implements UserService{
         return r;
     }
 
-
-    private String[] updatableField = {"nickname","avatar",""};
-    private Class userClass = User.class;
-
     @Override
     public User selectUser(User user) {
         UserExample userExample = new UserExample();

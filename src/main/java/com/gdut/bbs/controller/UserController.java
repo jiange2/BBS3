@@ -6,7 +6,6 @@ import com.gdut.bbs.service.UserService;
 import com.gdut.bbs.util.EmailUtil;
 import com.gdut.bbs.util.VerifyUtil;
 import org.apache.commons.lang3.text.WordUtils;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.*;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -222,4 +221,6 @@ public class UserController {
         }
         return exist;
     }
+
+
 }

@@ -51,7 +51,6 @@ public class ReplyServiceImpl implements ReplyService{
         ReplyExample.Criteria criteria = replyExample.createCriteria();
         criteria.andPidEqualTo(pid);
         replyExample.setOrderByClause("reply_time desc");
-        List<Reply> replies = replyMapper.selectByExampleWithBLOBs(replyExample);
-        return replies;
+        return replyMapper.selectByExampleWithBLOBs(replyExample);
     }
 }

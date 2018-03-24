@@ -5,42 +5,13 @@
     <id column="cid" jdbcType="INTEGER" property="cid" />
     <result column="rid" jdbcType="INTEGER" property="rid" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="unickname" jdbcType="INTEGER" property="unickname" />
+    <result column="unickname" jdbcType="VARCHAR" property="unickname" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
         <if test="criteria.valid">
           <trim prefix="(" prefixOverrides="and" suffix=")">
             <foreach collection="criteria.criteria" item="criterion">
@@ -101,12 +72,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.gdut.bbs.domain.Comment">
-    insert into comment (cid, rid, uid, 
-      unickname, content, comment_time
-      )
+    insert into comment (cid, rid, uid, unickname, content, comment_time)
     values (#{cid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
-      #{unickname,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}
+      #{unickname,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}
       )
+    <selectKey resultType="Integer" order="AFTER" keyProperty="cid">
+      SELECT LAST_INSERT_ID() AS cid
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gdut.bbs.domain.Comment">
     insert into comment
@@ -141,7 +113,7 @@
         #{uid,jdbcType=INTEGER},
       </if>
       <if test="unickname != null">
-        #{unickname,jdbcType=INTEGER},
+        #{unickname,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -170,7 +142,7 @@
         uid = #{record.uid,jdbcType=INTEGER},
       </if>
       <if test="record.unickname != null">
-        unickname = #{record.unickname,jdbcType=INTEGER},
+        unickname = #{record.unickname,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -188,7 +160,7 @@
     set cid = #{record.cid,jdbcType=INTEGER},
       rid = #{record.rid,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER},
-      unickname = #{record.unickname,jdbcType=INTEGER},
+      unickname = #{record.unickname,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       comment_time = #{record.commentTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -205,7 +177,7 @@
         uid = #{uid,jdbcType=INTEGER},
       </if>
       <if test="unickname != null">
-        unickname = #{unickname,jdbcType=INTEGER},
+        unickname = #{unickname,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -220,9 +192,39 @@
     update comment
     set rid = #{rid,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER},
-      unickname = #{unickname,jdbcType=INTEGER},
+      unickname = #{unickname,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       comment_time = #{commentTime,jdbcType=TIMESTAMP}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
 </mapper>

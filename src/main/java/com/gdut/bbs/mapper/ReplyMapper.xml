@@ -323,5 +323,19 @@
       comment_count = #{commentCount,jdbcType=INTEGER}
     where rid = #{rid,jdbcType=INTEGER}
   </update>
+  <update id="addCountByPrimaryKey" parameterType="com.gdut.bbs.domain.Reply">
+    update reply
+    <set>
+      <if test="agreeCount != null">
+        agree_count = agree_count + 1,
+      </if>
+      <if test="commentCount != null">
+        comment_count = comment_count + 1,
+      </if>
+    </set>
+    <where>
+      rid = #{rid}
+    </where>
+  </update>
 
 </mapper>

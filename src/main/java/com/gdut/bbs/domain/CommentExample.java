@@ -295,52 +295,62 @@ public class CommentExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameEqualTo(Integer value) {
+        public Criteria andUnicknameEqualTo(String value) {
             addCriterion("unickname =", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameNotEqualTo(Integer value) {
+        public Criteria andUnicknameNotEqualTo(String value) {
             addCriterion("unickname <>", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameGreaterThan(Integer value) {
+        public Criteria andUnicknameGreaterThan(String value) {
             addCriterion("unickname >", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUnicknameGreaterThanOrEqualTo(String value) {
             addCriterion("unickname >=", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameLessThan(Integer value) {
+        public Criteria andUnicknameLessThan(String value) {
             addCriterion("unickname <", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameLessThanOrEqualTo(Integer value) {
+        public Criteria andUnicknameLessThanOrEqualTo(String value) {
             addCriterion("unickname <=", value, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameIn(List<Integer> values) {
+        public Criteria andUnicknameLike(String value) {
+            addCriterion("unickname like", value, "unickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnicknameNotLike(String value) {
+            addCriterion("unickname not like", value, "unickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnicknameIn(List<String> values) {
             addCriterion("unickname in", values, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameNotIn(List<Integer> values) {
+        public Criteria andUnicknameNotIn(List<String> values) {
             addCriterion("unickname not in", values, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameBetween(Integer value1, Integer value2) {
+        public Criteria andUnicknameBetween(String value1, String value2) {
             addCriterion("unickname between", value1, value2, "unickname");
             return (Criteria) this;
         }
 
-        public Criteria andUnicknameNotBetween(Integer value1, Integer value2) {
+        public Criteria andUnicknameNotBetween(String value1, String value2) {
             addCriterion("unickname not between", value1, value2, "unickname");
             return (Criteria) this;
         }

@@ -9,7 +9,7 @@ public class Comment {
 
     private Integer uid;
 
-    private Integer unickname;
+    private String unickname;
 
     private String content;
 
@@ -39,12 +39,12 @@ public class Comment {
         this.uid = uid;
     }
 
-    public Integer getUnickname() {
+    public String getUnickname() {
         return unickname;
     }
 
-    public void setUnickname(Integer unickname) {
-        this.unickname = unickname;
+    public void setUnickname(String unickname) {
+        this.unickname = unickname == null ? null : unickname.trim();
     }
 
     public String getContent() {

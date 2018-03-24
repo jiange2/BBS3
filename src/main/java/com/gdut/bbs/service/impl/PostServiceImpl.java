@@ -41,7 +41,6 @@ public class PostServiceImpl implements PostService{
         post.setUavatar(user.getAvatar());
         post.setUnickname(user.getNickname());
         post.setTitle(XssUtil.cleanAll(post.getTitle()));
-        System.out.println(post.getTitle()+":"+post.getContent());
         return postMapper.insert(post);
     }
 
